@@ -25,10 +25,10 @@
 
           <v-col>
             <v-sheet
-              min-height="70vh"
+              min-height="60vh"
               rounded="lg"
             >
-              <!--  -->
+                <Post />
             </v-sheet>
           </v-col>
         </v-row>
@@ -38,7 +38,12 @@
 </template>
 
 <script>
+import Post from './Post.vue'
+
   export default {
+    components: {
+      Post
+    },
     data: () => ({
       links: [
         'Dashboard',
@@ -49,3 +54,4 @@
     }),
   }
 </script>
+
