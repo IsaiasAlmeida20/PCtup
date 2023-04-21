@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <Header />
-
     <v-main class="bg-blue-grey-darken-3">
      
     </v-main>
