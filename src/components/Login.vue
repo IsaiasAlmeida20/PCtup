@@ -27,22 +27,9 @@
 }
 
 .form-content h3 {
-  font-weight: 500;
-  font-size: 1.5rem;
+  font-weight: 400;
+  font-size: 1.1rem;
   text-align: center;
-}
-
-.btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.4));
-  gap: 4px;
-  font-weight: 500;
-  font-size: 1.9rem;
-  height: 3.25rem;
-  border: none;
-  border-radius: 8px;
 }
 
 .input-data {
@@ -65,6 +52,19 @@
   font-size: 1rem;
   text-align: left;
   margin-left: 10px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.4));
+  gap: 4px;
+  font-weight: 400;
+  font-size: 1.6rem;
+  height: 3.25rem;
+  border: none;
+  border-radius: 8px;
 }
 
 @media (max-width: 480px) {
