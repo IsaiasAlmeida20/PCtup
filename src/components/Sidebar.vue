@@ -38,14 +38,13 @@
   </v-card>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 
 </script>
 
 <style lang="css" scoped>
 
 .container {
-  max-width: 100%;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
