@@ -7,7 +7,7 @@
 </script>
 
 <style lang="css">
- *{
+* {
   font-family: 'Poppins', sans-serif;
- }
+}
 </style>
