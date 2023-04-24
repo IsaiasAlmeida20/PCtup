@@ -1,5 +1,8 @@
 <template>
-  <v-card>       
+  <v-card 
+    class="container bg-blue-grey-darken-4 mb-8"
+    rounded="lg"  
+  >       
     <v-card-item>
       <div class="d-flex align-center justify-space-between">
         <div class="d-flex flex-row align-center">
@@ -14,22 +17,25 @@
         <v-icon icon="mdi-star-outline" class="float-end" />
       </div>
     </v-card-item>
-    
-      
-    <v-img
-      src="./../assets/b76c69dca76e6067c8a29c701e9005dc.jpg" 
-      class="h-50"                   
-    >
-    </v-img>
+
+    <v-img src="./../assets/b76c69dca76e6067c8a29c701e9005dc.jpg" />
 
     <v-card-actions>
-      <v-spacer></v-spacer>
+      <v-btn size="small" icon="mdi-heart"></v-btn>
 
-      <v-btn size="small" color="surface-variant" variant="text" icon="mdi-heart"></v-btn>
+      <v-btn size="small" icon="mdi-bookmark"></v-btn>
 
-      <v-btn size="small" color="surface-variant" variant="text" icon="mdi-bookmark"></v-btn>
-
-      <v-btn size="small" color="surface-variant" variant="text" icon="mdi-share-variant"></v-btn>
+      <v-btn size="small" icon="mdi-share-variant"></v-btn>
     </v-card-actions>
   </v-card>
 </template>
+
+<script lang="ts" setup>
+
+</script>
+
+<style lang="css" scoped>
+  .container {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+</style>
