@@ -1,19 +1,25 @@
 <template>
-  <header class="header bg-blue-grey-darken-4">
-    <img src="./../assets/logo.png" alt="PCTup">
-    <router-link to="/login">
-      <button class="btn">
-        <v-icon icon="mdi-account-outline" size="32"/>
-        <span>
-          ENTRAR
-        </span>
-      </button>
-    </router-link>
-  </header>
+  <v-app-bar
+    class="header"
+    color="blue-grey-darken-4"
+  >
+      <v-spacer></v-spacer>
+      <v-app-bar-title>
+        <img src="./../assets/logo.png" alt="PCTup">
+      </v-app-bar-title>
+      <v-spacer></v-spacer>
+      <router-link to="/login">
+        <button class="btn" title="Entrar">
+          <v-icon icon="mdi-account-outline" size="32"/>  
+        </button>
+      </router-link>
+      <v-spacer></v-spacer>
+  </v-app-bar>
 </template>
 
 <style lang="css" scoped>
   .header {
+    overflow: hidden;
     height: 80px;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     display: flex;
@@ -22,7 +28,8 @@
   }
 
   .header img {
-    width: 12rem;
+    width: 10.5rem;
+    padding: 4px;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   }
 
@@ -31,8 +38,12 @@
   }
 
   .btn {
-    width: 10rem;
+    width: 3.5rem;
     height: 3.5rem;
+    border-radius: 100%;
+    /*width: 10rem;
+    height: 3.5rem;
+    border-radius: 8px;*/
     background-color: #6200EA;
     color: #FFFFFF;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -43,7 +54,6 @@
     font-weight: bold;
     font-size: 1.7rem;
     border: none;
-    border-radius: 8px;
   }
 
   @media (max-width: 480px) {
@@ -54,7 +64,7 @@
     .btn {
       width: 3rem;
       height: 3rem;
-      border-radius: 100%;
+      /*border-radius: 100%;*/
     }
 
     .btn span {
