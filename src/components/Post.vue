@@ -1,6 +1,6 @@
 <template>
   <v-card 
-    class="container bg-blue-grey-darken-4 mb-8"
+    class="container bg-blue-grey-darken-4 mb-4"
     rounded="lg"  
   >       
     <v-card-item>
