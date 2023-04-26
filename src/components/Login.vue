@@ -1,18 +1,49 @@
 <template>
-  <form class="form-content bg-blue-grey-darken-4">
+  <v-form 
+    class="form-content bg-blue-grey-darken-4" 
+    @submit.prevent="login"
+  >
     <h3>Entrar no PCtup</h3>
     <div class="input-data">
       <label>E-mail</label>
-      <input type="email" placeholder="Digite seu e-mail" />
+      <input 
+        type="email" 
+        placeholder="Digite seu e-mail" 
+        v-model="userLogin.email"
+      />
       <label>Senha</label>
-      <input type="password" placeholder="Digite sua senha" />
+      <input 
+        type="password" 
+        placeholder="Digite sua senha" 
+        v-model="userLogin.password"
+      />
     </div>
-    <button class="btn bg-deep-purple-accent-4">
+    <button class="btn bg-deep-purple-accent-4" type="submit">
       <v-icon icon="mdi-login" size="30"/>
       Entrar
     </button>
-  </form>
+  </v-form>
 </template>
+
+<script lang="ts" setup>
+import { reactive } from 'vue'
+
+interface IUserLoginData {
+  email: string,
+  password: string
+}
+
+const userLogin: IUserLoginData = reactive({
+  email: '',
+  password: ''
+})
+
+
+function login() {
+  console.log(userLogin)
+}
+
+</script>
 
 <style lang="css" scoped>
 .form-content {

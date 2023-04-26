@@ -13,29 +13,21 @@
               color="blue-grey-lighten-2"
               align-tabs="center"
             >
-              <v-tab :value="1">
-                <router-link to="">
+              <v-tab :value="1" tag="router-link" to="/setups">
                   <v-icon icon="mdi-home-outline"  size="large" title="Novo Setup"/>
                   <span class="hidden-sm-and-down ms-1"> Início</span>
-                </router-link>
               </v-tab>
-              <v-tab :value="2">
-                <router-link to="/new-setup">
+              <v-tab :value="2" tag="router-link" to="/new-setup">
                   <v-icon icon="mdi-image-plus-outline"  size="large" title="Novo Setup"/>
                   <span class="hidden-sm-and-down ms-1"> Novo Setup</span>
-                </router-link>
               </v-tab>
-              <v-tab :value="3">
-                <router-link to="/favorites">
+              <v-tab :value="3" tag="router-link" to="/favorites">
                   <v-icon icon="mdi-star-outline"  size="large" title="Favoritos"/>
                   <span class="hidden-sm-and-down ms-1"> Favoritos</span>
-                </router-link>
               </v-tab>
-              <v-tab :value="4">
-                <router-link to="/my-setups">
+              <v-tab :value="4" tag="router-link" to="/my-setups">
                   <v-icon icon="mdi-monitor"  size="large" title="Meus Setups"/>
                   <span class="hidden-sm-and-down ms-1"> Meus Setups</span>
-                </router-link>
               </v-tab>
             </v-tabs>
           </div>
