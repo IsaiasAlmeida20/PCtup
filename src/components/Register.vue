@@ -83,7 +83,7 @@ function resetForm() {
 watch(overlay, (val) => {
     val && setTimeout(() => {
       overlay.value = false
-      router.push("/setups")
+      router.push("/")
     }, 2000)
   }
 )
