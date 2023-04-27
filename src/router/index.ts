@@ -16,7 +16,7 @@ const routes = [
     component: Home,
     children: [
       {
-        path: '/setups',
+        path: '/',
         name: 'setups',
         component: SetupView
       },

@@ -13,7 +13,7 @@
               color="blue-grey-lighten-2"
               align-tabs="center"
             >
-              <v-tab :value="1" tag="router-link" to="/setups">
+              <v-tab :value="1" tag="router-link" to="/">
                   <v-icon icon="mdi-home-outline"  size="large" title="Novo Setup"/>
                   <span class="hidden-sm-and-down ms-1"> Início</span>
               </v-tab>
