@@ -24,16 +24,31 @@
         v-model="userRegister.password"
       />
     </div>
-    <button class="btn bg-deep-purple-accent-4" type="submit">
+    <v-btn 
+      class="btn bg-deep-purple-accent-4" 
+      type="submit"
+      @click="overlay = !overlay"
+    >
       <v-icon icon="mdi-account-plus-outline" size="30"/>
       Criar Conta
-    </button>
+    </v-btn>
+    <v-overlay
+      :model-value="overlay"
+      class="align-center justify-center"
+    >
+      <v-progress-circular
+        color="primary"
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
   </v-form>
 </template>
 
 <script lang="ts" setup>
 import router from '@/router'
-import { reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
+import api from '@/services/api'
 
 interface IUserResgisterData{
   name: string,
@@ -41,16 +56,22 @@ interface IUserResgisterData{
   password: string
 }
 
+const overlay = ref(false)
+
 const userRegister: IUserResgisterData = reactive({
   name: '',
   email: '',
   password: ''
 })
 
-function register() {
-  console.log(userRegister)
+async function register() {
+  try {
+    const data = await api.post("/signup", userRegister)
+    console.log(data)
+  } catch (error) {
+    console.log(error)
+  }
   resetForm()
-  router.push("/login")
 }
 
 function resetForm() {
@@ -58,6 +79,14 @@ function resetForm() {
   userRegister.email = ''
   userRegister.password = ''
 }
+
+watch(overlay, (val) => {
+    val && setTimeout(() => {
+      overlay.value = false
+      router.push("/setups")
+    }, 2000)
+  }
+)
 
 </script>
 

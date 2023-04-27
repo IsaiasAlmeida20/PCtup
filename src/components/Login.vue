@@ -18,20 +18,54 @@
         v-model="userLogin.password"
       />
     </div>
-    <button class="btn bg-deep-purple-accent-4" type="submit">
+
+    <v-btn 
+      class="btn bg-deep-purple-accent-4" 
+      type="submit"
+      @click="overlay = !overlay"
+    >
       <v-icon icon="mdi-login" size="30"/>
       Entrar
-    </button>
+    </v-btn>
+
+    <v-overlay
+      :model-value="overlay"
+      class="align-center justify-center"
+    >
+      <v-progress-circular
+        color="primary"
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+
+    <v-snackbar
+      color="red"
+      elevation="24"
+      v-model="toast"
+      timeout="2000"
+    >
+      <strong>Email ou Senha Incorretos</strong>
+    </v-snackbar>
   </v-form>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import router from '@/router'
+import { ref, reactive, watch } from 'vue'
+import api from '@/services/api'
+import { userAuthStore } from '@/store/app'
 
 interface IUserLoginData {
   email: string,
   password: string
 }
+
+const auth = userAuthStore()
+
+const overlay = ref(false)
+
+const toast = ref(false)
 
 const userLogin: IUserLoginData = reactive({
   email: '',
@@ -39,9 +73,27 @@ const userLogin: IUserLoginData = reactive({
 })
 
 
-function login() {
-  console.log(userLogin)
+async function login() {
+  try {
+    const response = await api.post("/login", userLogin)
+    auth.setAcessToken(response.data.accessToken)
+    auth.setUserId(response.data.id)
+    router.push("/setups")
+    console.log(response)
+  } catch (error) {
+      setTimeout(() => {
+        toast.value = !toast.value
+      }, 2000)
+    console.log(error)
+  }
 }
+
+watch(overlay, (val) => {
+    val && setTimeout(() => {
+      overlay.value = false
+    }, 2000)
+  }
+)
 
 </script>
 
