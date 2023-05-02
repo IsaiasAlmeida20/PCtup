@@ -3,11 +3,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from './../views/Home.vue'
 import LoginView from '../views/LoginView.vue'
 import SetupView from '../views/SetupView.vue'
-import Login from '@/components/Login.vue'
-import Register from '@/components/Register.vue'
-import NewSetup from '@/components/NewSetup.vue'
-import Favorites from '@/components/Favorites.vue'
-import MySetups from '@/components/MySetups.vue'
+import Login from '@/components/login/Login.vue'
+import Register from '@/components/register/Register.vue'
+import NewSetup from '@/components/new-setup/NewSetup.vue'
+import Favorites from '@/components/favorites/Favorites.vue'
+import MySetups from '@/components/my-setups/MySetups.vue'
 
 const routes = [
   {

@@ -9,7 +9,7 @@
         class="ms-sm-16 me-8"
         :width="140"
         aspect-ratio="16/9"
-        src="./../assets/logo.png"
+        src="@/assets/logo.png"
       >
       </v-img>
     </v-app-bar-title>

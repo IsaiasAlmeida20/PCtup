@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import Setup from '@/components/Setup.vue'
+import Setup from '@/components/setup/Setup.vue'
 import api from '@/services/api'
 import { onMounted } from 'vue'
 
@@ -23,6 +23,5 @@ onMounted(getSetups)
 
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="css" scoped>
 </style>

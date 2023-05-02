@@ -19,7 +19,7 @@
       </div>
     </v-card-item>
 
-    <v-img src="./../assets/b76c69dca76e6067c8a29c701e9005dc.jpg" />
+    <v-img src="@/assets/b76c69dca76e6067c8a29c701e9005dc.jpg" />
 
     <v-card-actions class="d-flex justify-space-between">
       <div>

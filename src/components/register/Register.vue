@@ -39,26 +39,33 @@
       <v-progress-circular
         color="primary"
         indeterminate
-        size="64"
+        size="48"
       ></v-progress-circular>
     </v-overlay>
+
+    <v-snackbar
+      color="orange"
+      elevation="24"
+      v-model="toast"
+      timeout="2000"
+    >
+      <strong>Revise seus dados e tente novamente.</strong>
+    </v-snackbar>
   </v-form>
 </template>
 
 <script lang="ts" setup>
-import router from '@/router'
 import { ref, reactive, watch } from 'vue'
+import router from '@/router'
 import api from '@/services/api'
+import { userAuthStore } from '@/store/app'
+import { UserResgister } from '@/components/register/index'
 
-interface IUserResgisterData{
-  name: string,
-  email: string,
-  password: string
-}
-
+const auth = userAuthStore()
 const overlay = ref(false)
+const toast = ref(false)
 
-const userRegister: IUserResgisterData = reactive({
+const userRegister = reactive<UserResgister>({
   name: '',
   email: '',
   password: ''
@@ -66,24 +73,22 @@ const userRegister: IUserResgisterData = reactive({
 
 async function register() {
   try {
-    const data = await api.post("/signup", userRegister)
-    console.log(data)
+    const response = await api.post("/signup", userRegister)
+    auth.setAcessToken(response.data.accessToken)
+    auth.setUserId(response.data.id)
+    router.push("/")
+    console.log(response)
   } catch (error) {
+    setTimeout(() => {
+        toast.value = !toast.value
+      }, 2000)
     console.log(error)
   }
-  resetForm()
-}
-
-function resetForm() {
-  userRegister.name = ''
-  userRegister.email = ''
-  userRegister.password = ''
 }
 
 watch(overlay, (val) => {
     val && setTimeout(() => {
       overlay.value = false
-      router.push("/")
     }, 2000)
   }
 )
@@ -108,7 +113,6 @@ watch(overlay, (val) => {
   font-size: 1.1rem;
   text-align: center;
 }
-
 
 .input-data {
   display: flex;

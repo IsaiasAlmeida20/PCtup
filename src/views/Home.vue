@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import Header from '@/components/Header.vue';
+import Header from '@/components/header/Header.vue';
 
 </script>
 

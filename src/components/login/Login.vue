@@ -35,7 +35,7 @@
       <v-progress-circular
         color="primary"
         indeterminate
-        size="64"
+        size="48"
       ></v-progress-circular>
     </v-overlay>
 
@@ -51,34 +51,28 @@
 </template>
 
 <script lang="ts" setup>
-import router from '@/router'
 import { ref, reactive, watch } from 'vue'
+import router from '@/router'
 import api from '@/services/api'
 import { userAuthStore } from '@/store/app'
-
-interface IUserLoginData {
-  email: string,
-  password: string
-}
+import { UserLogin } from '@/components/login/index'
 
 const auth = userAuthStore()
 
 const overlay = ref(false)
-
 const toast = ref(false)
 
-const userLogin: IUserLoginData = reactive({
+const userLogin = reactive<UserLogin>({
   email: '',
   password: ''
 })
-
 
 async function login() {
   try {
     const response = await api.post("/login", userLogin)
     auth.setAcessToken(response.data.accessToken)
     auth.setUserId(response.data.id)
-    router.push("/setups")
+    router.push("/")
     console.log(response)
   } catch (error) {
       setTimeout(() => {
