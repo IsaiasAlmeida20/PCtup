@@ -6,6 +6,8 @@ import SetupView from '../views/SetupView.vue'
 import Login from '@/components/login/Login.vue'
 import Register from '@/components/register/Register.vue'
 import NewSetup from '@/components/new-setup/NewSetup.vue'
+import SetupDescription from '@/components/new-setup/SetupDescription.vue'
+import SetupImage from '@/components/new-setup/SetupImage.vue'
 import Favorites from '@/components/favorites/Favorites.vue'
 import MySetups from '@/components/my-setups/MySetups.vue'
 
@@ -23,7 +25,18 @@ const routes = [
       {
         path: '/new-setup',
         name: 'new-setup',
-        component: NewSetup
+        component: NewSetup,
+        children: [
+          {
+            path: '',
+            component: SetupDescription
+          },
+          {
+            path: '/image',
+            name: 'image',
+            component: SetupImage
+          }
+        ]
       },
       {
         path: '/favorites',
