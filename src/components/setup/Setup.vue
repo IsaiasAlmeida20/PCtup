@@ -10,8 +10,8 @@
           <v-avatar image="https://github.com/ilmardanilo.png" size="48" class="me-2"/>
           <div class="d-flex flex-row align-center">
             <div>
-              <v-card-title class="text-body-1">{{ postProps.userName  }}</v-card-title>
-              <v-card-subtitle class="text-caption float-start">{{ postProps.createdAt }}</v-card-subtitle>
+              <v-card-title class="text-body-1">{{ nome  }}</v-card-title>
+              <v-card-subtitle class="text-caption float-start">{{ createdAt }}</v-card-subtitle>
             </div>
           </div>
         </div>
@@ -25,7 +25,18 @@
       </div>
     </v-card-item>
 
-    <v-img :src="postProps.createdAt" />
+    <v-carousel 
+      show-arrows="hover"
+      hide-delimiters
+    >
+      <v-carousel-item
+        v-for="(image, i) in imagens"
+        :key="i"
+        :src="image.url"
+        cover
+      ></v-carousel-item>
+    </v-carousel>
+
 
     <v-card-actions class="d-flex justify-space-between">
       <div>
@@ -53,11 +64,14 @@ const liked = ref(false)
 const favorited = ref(false)
 
 const postProps = defineProps<{
-  userName: string,
-  createdAt: string,
-  images: string
+  nome: string
+  createdAt: string
+  imagens: [
+    {
+      id: string
+      url: string
+    }
+  ]
 }>()
-
-
 
 </script>

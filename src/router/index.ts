@@ -1,8 +1,7 @@
-// Composables
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from './../views/Home.vue'
 import LoginView from '../views/LoginView.vue'
-import SetupView from '../views/SetupView.vue'
+import SetupView from '../components/setup/SetupView.vue'
 import Login from '@/components/login/Login.vue'
 import Register from '@/components/register/Register.vue'
 import NewSetup from '@/components/new-setup/NewSetup.vue'
@@ -24,7 +23,6 @@ const routes = [
       },
       {
         path: '/new-setup',
-        name: 'new-setup',
         component: NewSetup,
         children: [
           {
