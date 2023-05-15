@@ -6,7 +6,7 @@ export type PostType = {
   estaPublico: boolean,
   imagens: [
     {
-      publicId: string,
+      id: string,
       url: string
     }
   ],
