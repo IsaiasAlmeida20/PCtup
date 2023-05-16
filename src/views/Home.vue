@@ -7,7 +7,7 @@
           class="container d-flex flex-column h-100"
           align="center"
         >
-          <div class="mb-4">
+          <div class="mb-2">
             <v-tabs
               fixed-tabs
               align-tabs="center"
@@ -16,10 +16,10 @@
                   <v-icon icon="mdi-home-outline"  size="large" title="Novo Setup"/>
                   <span class="hidden-sm-and-down ms-1"> Início</span>
               </v-tab>
-              <v-tab tag="router-link" to="/new-setup">
+              <!-- <v-tab tag="router-link" to="/new-setup">
                   <v-icon icon="mdi-image-plus-outline"  size="large" title="Novo Setup"/>
                   <span class="hidden-sm-and-down ms-1"> Novo Setup</span>
-              </v-tab>
+              </v-tab> -->
               <v-tab tag="router-link" to="/favorites">
                   <v-icon icon="mdi-star-outline"  size="large" title="Favoritos"/>
                   <span class="hidden-sm-and-down ms-1"> Favoritos</span>
@@ -32,7 +32,15 @@
           </div>
           <div>
             <router-view></router-view>
-          </div> 
+          </div>
+          <router-link to="/new-setup">
+            <v-btn 
+              v-show="$route.fullPath.length==1"
+              class="btn"
+              icon="mdi-image-plus-outline" 
+              size="large"
+            /> 
+          </router-link>
         </div>
       </v-container>
     </v-main>
@@ -47,7 +55,7 @@ import Header from '@/components/header/Header.vue';
 
 <style lang="css" scoped>
   .container {
-    width: 700px;
+    width: 640px;
   }
 
   .container a{
@@ -59,5 +67,12 @@ import Header from '@/components/header/Header.vue';
     .container{
       width: 100%;
     }
+  }
+
+  .btn {
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    z-index: 1000;
   }
 </style>

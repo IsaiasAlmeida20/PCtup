@@ -1,11 +1,12 @@
 <template>
-  <h1 class="text-h5 mb-4">Foto do Setup</h1>
   <v-card
     elevation="10"
     class="bg-blue-grey-darken-4"
     height="65vh"
     rounded="lg"
   >
+    <h1 class="text-h5 mb-4">Foto do Setup</h1>
+
     <form>
       <v-file-input 
         class="ma-4"
