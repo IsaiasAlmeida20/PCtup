@@ -74,9 +74,9 @@ import { SetupDescription } from './index'
 const auth = userAuthStore()
 
 const setupDescription = reactive<SetupDescription>({
+  usuarioId: auth.getUserId(),
   titulo: '',
-  descricao: '',
-  usuarioId: auth.getUserId()
+  descricao: ''
 })
 
 async function send(){
@@ -88,8 +88,6 @@ async function send(){
   } catch (error) {
     console.log(error)
   }
-
-
   console.log(setupDescription)
 }
 
