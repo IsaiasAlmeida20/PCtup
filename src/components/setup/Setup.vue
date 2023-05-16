@@ -60,10 +60,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const liked = ref(false)
-const favorited = ref(false)
-
-const postProps = defineProps<{
+interface props{
   nome: string
   createdAt: string
   avatar: string
@@ -73,6 +70,11 @@ const postProps = defineProps<{
       url: string
     }
   ]
-}>()
+}
+
+const liked = ref(false)
+const favorited = ref(false)
+
+const postProps = defineProps<props>()
 
 </script>
