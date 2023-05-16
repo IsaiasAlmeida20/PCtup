@@ -47,7 +47,7 @@ import Header from '@/components/header/Header.vue';
 
 <style lang="css" scoped>
   .container {
-    width: 900px;
+    width: 700px;
   }
 
   .container a{

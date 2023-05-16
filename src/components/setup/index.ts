@@ -24,5 +24,9 @@ export type PostType = {
     cidade: string,
     estado: string,
     profissao: string
+    imagem: {
+      publicId: string,
+      url: string
+    },
   }
 }

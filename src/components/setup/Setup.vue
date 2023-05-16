@@ -7,7 +7,7 @@
     <v-card-item>
       <div class="d-flex align-center justify-space-between">
         <div class="d-flex flex-row align-center">
-          <v-avatar image="https://github.com/ilmardanilo.png" size="48" class="me-2"/>
+          <v-avatar :image="avatar" class="me-4"/>
           <div class="d-flex flex-row align-center">
             <div>
               <v-card-title class="text-body-1 text-left">{{ nome  }}</v-card-title>
@@ -66,6 +66,7 @@ const favorited = ref(false)
 const postProps = defineProps<{
   nome: string
   createdAt: string
+  avatar: string
   imagens: [
     {
       id: string

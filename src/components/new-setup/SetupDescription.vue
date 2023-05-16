@@ -5,6 +5,7 @@
       elevation="10"
       class="bg-blue-grey-darken-4"
       height="70vh"
+      rounded="lg"
     >
       <form class="ma-4">
         <v-text-field
@@ -14,13 +15,13 @@
         <v-textarea 
           label="Descrição"
         />
-        <v-btn
-          class="float-start bg-deep-purple-accent-4"
-          @click="send"
-        >
-          Continuar
-        </v-btn>
       </form>
+      <v-btn
+        class="bg-deep-purple-accent-4 float-end me-4"
+        @click="send"
+      >
+        Continuar
+      </v-btn>
     </v-card>
   </div>
 </template>

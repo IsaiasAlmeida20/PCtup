@@ -6,6 +6,7 @@
       :imagens="post.imagens"
       :created-at="post.createdAt"
       :nome="post.usuario.nome"
+      :avatar="post.usuario.imagem.url"
     />
   </div>
 </template>
@@ -25,10 +26,8 @@ async function getSetups() {
   } catch (error) {
     console.error(error);
   }
-  console.log(postData)
 }
 
 onMounted(getSetups)
-
 
 </script>

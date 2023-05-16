@@ -4,6 +4,7 @@
     elevation="10"
     class="bg-blue-grey-darken-4"
     height="65vh"
+    rounded="lg"
   >
     <form>
       <v-file-input 
