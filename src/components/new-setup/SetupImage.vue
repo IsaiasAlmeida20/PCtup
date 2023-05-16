@@ -1,11 +1,11 @@
 <template>
   <v-card
     elevation="10"
-    class="bg-blue-grey-darken-4"
-    height="65vh"
+    class="bg-blue-grey-darken-4 mt-16"
     rounded="lg"
+    max-height="70%"
   >
-    <h1 class="text-h5 mb-4">Foto do Setup</h1>
+    <h1 class="text-h5 ma-4">Foto do Setup</h1>
 
     <form>
       <v-file-input 
@@ -17,24 +17,31 @@
         @change="previewImage" 
       />
       <v-img 
-        class="w-50 h-50 mb-10 rounded-lg"
+        class="w-75 mb-10 rounded-lg"
         :src="previewUrl" 
       />
-      <v-btn
-        class="float-end me-4 bg-deep-purple-accent-4"
-        v-show="previewUrl"
-      >
-        Concluír
-      </v-btn>
     </form>
+    <v-btn
+      class="float-end me-4 bg-deep-purple-accent-4 mb-4 me-4"
+      v-show="previewUrl"
+      @click="sendImg"
+    >
+      Concluír
+    </v-btn>
   </v-card>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import api from '@/services/api';
+import { userAuthStore } from '@/store/app'
+import router from '@/router';
+
+const auth = userAuthStore()
 
 const fileInput = ref<any>();
 const previewUrl = ref<any>();
+
 
 function previewImage(): void{
   const file = fileInput.value.files[0];
@@ -45,6 +52,24 @@ function previewImage(): void{
   if (file) {
     reader.readAsDataURL(file);
   }
+}
+
+async function sendImg() {
+  const file = fileInput.value.files[0];
+  const formData = new FormData();
+  formData.append('image', file);
+  try {
+    const response = await api.post(`/setups/${auth.getSetupId()}/images`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+    router.push("/")
+  } catch (error) {
+    console.log(error)
+  }
+
+  console.log(file.name)
 }
 </script>
 

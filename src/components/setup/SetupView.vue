@@ -1,5 +1,11 @@
 <template>
   <div>
+    <v-progress-circular
+      class="mt-10"
+      v-if="postData.length === 0"
+      indeterminate
+      color="primary"
+    />
     <Setup 
       v-for="post in postData"
       :key="post.id"
