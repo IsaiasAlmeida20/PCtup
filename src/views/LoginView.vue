@@ -1,16 +1,22 @@
 <template>
   <main class="container bg-blue-grey-darken-3">
     <router-link to="/">
-      <img src="./../assets/logo.png" alt="PCtup">
+      <img class="mt-12" src="./../assets/logo.png" alt="PCtup">
     </router-link>
     <router-view></router-view>
-    <label v-if="$route.fullPath.includes('/login')">
+    <label 
+      v-if="$route.fullPath.includes('/login')"
+      class="mb-10"
+    >
       Não tem uma conta?
       <strong>
         <router-link to="/register"> Registre-se</router-link>
       </strong>
     </label>
-    <label v-else>
+    <label
+      v-else
+      class="mb-10"  
+    >
       Já tem uma conta?
       <strong>
         <router-link to="/login"> Entrar</router-link>

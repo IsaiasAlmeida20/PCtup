@@ -5,33 +5,40 @@
   >
     <h3>Criar conta no PCtup</h3>
     <div class="input-data">
+
       <label>Nome</label>
-      <input 
+      <v-text-field
         type="text"  
         placeholder="Digite seu nome"
         v-model="userRegister.name" 
       />
+
       <label>E-mail</label>
-      <input 
+      <v-text-field
         type="email" 
         placeholder="Digite seu e-mail" 
         v-model="userRegister.email"
       />
+
       <label>Senha</label>
-      <input 
+      <v-text-field
         type="password" 
         placeholder="Digite sua senha" 
         v-model="userRegister.password"
       />
+
+      <v-btn 
+        class="btn bg-deep-purple-accent-4 mb-6 mt-6" 
+        type="submit"
+        :disabled="disabled"
+        @click="overlay = !overlay"
+      >
+        <v-icon icon="mdi-account-plus-outline" size="30"/>
+        Criar Conta
+      </v-btn>
+
     </div>
-    <v-btn 
-      class="btn bg-deep-purple-accent-4" 
-      type="submit"
-      @click="overlay = !overlay"
-    >
-      <v-icon icon="mdi-account-plus-outline" size="30"/>
-      Criar Conta
-    </v-btn>
+
     <v-overlay
       :model-value="overlay"
       class="align-center justify-center"
@@ -55,11 +62,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch, computed } from 'vue'
 import router from '@/router'
 import api from '@/services/api'
 import { userAuthStore } from '@/store/app'
 import { UserResgister } from '@/components/register/index'
+import { title } from 'process'
 
 const auth = userAuthStore()
 const overlay = ref(false)
@@ -93,6 +101,12 @@ watch(overlay, (val) => {
   }
 )
 
+const disabled = computed(() => {
+  if(userRegister.name === ''  || userRegister.email === '' || userRegister.password === '') {
+    return true
+  }
+  return false
+})
 </script>
 
 
@@ -102,7 +116,6 @@ watch(overlay, (val) => {
   flex-direction: column;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.4));
   width: 31.25rem;
-  height: 30rem;
   gap: 25px;
   padding: 20px;
   border-radius: 8px;
@@ -117,17 +130,9 @@ watch(overlay, (val) => {
 .input-data {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
-.input-data input {
-  height: 3.25rem;
-  border: 1px solid #455A64;
-  border-radius: 8px;
-  color: #78909C;
-  padding: 20px;
-  outline: none;
-}
+
 
 .input-data label {
   font-weight: 300;
