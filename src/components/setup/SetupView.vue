@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import { reactive, onMounted } from 'vue'
 import api from '@/services/api'
-import { PostType } from './index'
+import { PostType } from '@/types/comonTypes'
 import Setup from './Setup.vue'
 
 const postData = reactive<PostType[]>([])
