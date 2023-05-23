@@ -51,13 +51,22 @@
       </div>
       <div>
         <span class="text-body-2">ver mais...</span>
-        <v-btn size="small" icon="mdi-information-outline" />
+        <v-btn size="small" icon="mdi-information-outline">
+          <v-icon>mdi-information-outline</v-icon>
+          <v-dialog
+            activator="parent"
+            width="auto"
+          >
+            <SetupDetails />
+          </v-dialog>
+        </v-btn>
       </div>
     </v-card-actions>
   </v-card>
 </template>
 
 <script lang="ts" setup>
+import SetupDetails from './SetupDetails.vue';
 import { ref } from 'vue'
 
 interface props{
