@@ -81,9 +81,7 @@ async function login() {
     router.push("/")
     console.log(response)
   } catch (error) {
-      setTimeout(() => {
-        toast.value = !toast.value
-      }, 2000)
+    toast.value = !toast.value
     console.log(error)
   }
 }

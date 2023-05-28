@@ -1,7 +1,7 @@
 <template>
   <main class="container bg-blue-grey-darken-3">
     <router-link to="/">
-      <img class="mt-12" src="./../assets/logo.png" alt="PCtup">
+      <img class="logo" src="./../assets/logo.png" alt="PCtup">
     </router-link>
     <router-view></router-view>
     <label 
@@ -30,6 +30,9 @@
 </script>
 
 <style lang="css" scoped>
+  .logo {
+    max-width: 80%;
+  }
   .container {
     display: flex;
     align-items: center;
@@ -37,7 +40,7 @@
     text-align: center;
     flex-direction: column;
     gap: 30px;
-    height: 100vh;
+    height: 110vh;
   }
   .container img {
     text-align: center;
