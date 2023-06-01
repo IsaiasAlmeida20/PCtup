@@ -47,7 +47,11 @@ const userData = ref<UserType>()
 async function getUserData() {
   const userId = auth.getUserId()
   try {
-    const response = await api.get(`/users/${userId}`)
+    const response = await api.get(`/users/${userId}`, {
+      headers: {
+        Authorization: auth.getAccessToken()
+      }
+    })
     userData.value = response.data
     console.log(userData)
     return response
