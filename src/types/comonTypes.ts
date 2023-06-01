@@ -30,3 +30,15 @@ export type PostType = {
       },
     }
 }
+
+export type UserType = {
+  nome: string,
+  email: string,
+  cargo: string,
+  imagem: {
+      publicId: string,
+      url: string
+  },
+  createdAt: string,
+  id: string
+}

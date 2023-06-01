@@ -78,19 +78,12 @@ async function login() {
     const response = await api.post("/login", userLogin)
     auth.setAcessToken(response.data.accessToken)
     auth.setUserId(response.data.id)
-    //setUserData(response.data.id)
     router.push("/")
   } catch (error) {
     toast.value = !toast.value
     console.log(error)
   }
 }
-
-// async function setUserData(userId: any) {
-//   const response = await api.get(`/users/${userId}`)
-//   auth.setUserImg(response.data.imagem.url)
-//   console.log(response.data)
-// }
 
 watch(overlay, (val) => {
     val && setTimeout(() => {
