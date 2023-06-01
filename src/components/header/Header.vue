@@ -56,11 +56,10 @@ async function getUserData() {
   }
 }
 
-setTimeout(() => {
-  if(auth.getAccessToken()) {
-    getUserData()
-  }
-}, 5000)
+
+if(auth.getAccessToken() && auth.getUserId()) {
+  getUserData()
+}
 
 
 </script>
