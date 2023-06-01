@@ -27,7 +27,7 @@
       class=" rounded-circle elevation-1 me-sm-16 me-8"
     >
       <router-link to="/profile">
-        <v-avatar :image="userData?.imagem.url" size="48"></v-avatar>
+        <v-avatar :image="userData?.imagem.url" size="44"></v-avatar>
       </router-link>
     </div>
   </v-app-bar>
