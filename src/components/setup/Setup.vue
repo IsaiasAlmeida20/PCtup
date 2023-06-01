@@ -28,6 +28,7 @@
     <v-carousel 
       show-arrows="hover"
       hide-delimiters
+      height="360"
     >
       <v-carousel-item
         v-for="(image, i) in imagens"
