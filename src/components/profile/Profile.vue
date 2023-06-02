@@ -25,34 +25,105 @@
                 <v-card-subtitle>
                     <span>{{ userData?.profissao }}</span>
                 </v-card-subtitle>
-                </v-card-item>
+            </v-card-item>
 
-                <v-card-text>
-                    <v-card-title>Seus Dados</v-card-title>
-                    <div class="my-4 text-subtitle-1">
-                        • E-mail: {{ userData?.email }}
-                    </div>
-                    <div class="my-4 text-subtitle-1">
-                        • Data de Nascimento: {{ userData?.dataNascimento}}
-                    </div>
-                    <div class="my-4 text-subtitle-1">
-                        • Estado: {{ userData?.estado }}
-                    </div>
-                    <div class="my-4 text-subtitle-1">
-                        • Cidade: {{ userData?.cidade }}
-                    </div>
+            <v-card-text>
+                <v-card-title>Seus Dados</v-card-title>
+                <div class="my-4 text-subtitle-1">
+                    • E-mail: {{ userData?.email }}
+                </div>
+                <div class="my-4 text-subtitle-1">
+                    • Data de Nascimento: {{ userData?.dataNascimento}}
+                </div>
+                <div class="my-4 text-subtitle-1">
+                    • Estado: {{ userData?.estado }}
+                </div>
+                <div class="my-4 text-subtitle-1">
+                    • Cidade: {{ userData?.cidade }}
+                </div>
             </v-card-text>
 
             <v-divider></v-divider>
 
-            <v-card-actions class="d-flex justify-space-between">
-                <v-btn
-                    color="deep-purple-lighten-2"
-                    variant="text"
+            <v-card-actions class="d-flex justify-space-between">      
+                    
+                <v-dialog
+                    v-model="dialog"
+                    persistent
+                    max-width="800"
+                    width="90%"
                 >
-                    <v-icon>mdi-pencil</v-icon>
-                    Editar Perfil
-                </v-btn>
+                    <template v-slot:activator="{ props }">
+                        <v-btn
+                            color="primary"
+                            v-bind="props"
+                        >
+                            <v-icon>mdi-pencil</v-icon>
+                            Editar Perfil
+                        </v-btn>
+                    </template>
+                    <v-card 
+                        class="bg-blue-grey-darken-4"
+                        rounded="lg"
+                        elevation="10" 
+                    >
+                        <v-card-title class="text-h5">
+                            Atualização de dados
+                        </v-card-title>
+
+                        <v-card-item class="text-center">
+                            <v-avatar
+                                size="80" 
+                                :image="userData?.imagem.url"
+                            />
+                        </v-card-item>
+
+                        <v-card-text>
+                            <v-select
+                                label="Avatar"
+                                :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                            ></v-select>
+
+                            <v-text-field
+                                label="Name"
+                            ></v-text-field>
+
+                            <v-text-field
+                                label="Data de nascimento"
+                            ></v-text-field>
+
+                            <v-text-field
+                                label="Profissão"
+                            ></v-text-field>
+
+                            <v-text-field
+                                label="Cidade"
+                            ></v-text-field>
+
+                            <v-text-field
+                                label="Estado"
+                            ></v-text-field>
+                            
+                        </v-card-text>
+
+                        <v-card-actions>
+                        <v-btn
+                            color="green-darken-1"
+                            variant="text"
+                            @click="dialog = false"
+                        >
+                            Cancelar
+                        </v-btn>
+                        <v-btn
+                            color="green-darken-1"
+                            variant="text"
+                            @click="dialog = false"
+                        >
+                            Salvar
+                        </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
                 <v-btn
                     color="deep-purple-lighten-2"
                     variant="text"
@@ -74,6 +145,8 @@ import { userAuthStore } from '@/store/app'
 import { UserType } from '@/types/comonTypes'
 
 const auth = userAuthStore()
+
+const dialog = ref<boolean>(false)
 
 const userData = ref<UserType>()
 
