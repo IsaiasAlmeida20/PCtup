@@ -35,6 +35,10 @@ export type UserType = {
   nome: string,
   email: string,
   cargo: string,
+  profissao: string,
+  dataNascimento: string,
+  estado: string,
+  cidade: string,
   imagem: {
       publicId: string,
       url: string
