@@ -51,9 +51,11 @@
         <v-btn size="small" icon="mdi-share-variant" />
       </div>
       <div>
-        <span class="text-body-2">ver mais...</span>
-        <v-btn size="small" icon="mdi-information-outline">
-          <v-icon>mdi-information-outline</v-icon>
+        <v-btn
+          class="text-lowercase"
+        >
+          ver mais...  
+          <v-icon class="ms-1">mdi-information-outline</v-icon>
           <v-dialog
             activator="parent"
             width="auto"
@@ -61,6 +63,16 @@
             <SetupDetails />
           </v-dialog>
         </v-btn>
+        <!-- <v-btn icon="mdi-information-outline">
+          <span class="text-body-1">ver mais...</span>
+          <v-icon>mdi-information-outline</v-icon>
+          <v-dialog
+            activator="parent"
+            width="auto"
+          >
+            <SetupDetails />
+          </v-dialog>
+        </v-btn> -->
       </div>
     </v-card-actions>
   </v-card>
