@@ -10,7 +10,7 @@
       v-for="post in postData"
       :key="post.id"
       :imagens="post.imagens"
-      :created-at="post.createdAt"
+      :created-at="formatedDate(post.createdAt)"
       :nome="post.usuario.nome"
       :avatar="post.usuario.imagem.url"
     />
@@ -24,6 +24,7 @@
 
 <script setup lang="ts">
 import { reactive, onMounted } from 'vue'
+import { format } from 'date-fns'
 import api from '@/services/api'
 import { PostType } from '@/types/comonTypes'
 import { userAuthStore } from '@/store/app'
@@ -43,11 +44,17 @@ async function getSetups() {
   }
 }
 
+const formatedDate = (data: string) => {
+  const dataFormatada = new Date(data);
+  return format(dataFormatada, 'dd/MM/yyyy');
+}
+
 onMounted(getSetups)
 
 </script>
 
-<style>
+<style scoped lang="css">
+
 .link a {
   color: #FFFFFF;
 }

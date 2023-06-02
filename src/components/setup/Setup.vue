@@ -7,7 +7,7 @@
     <v-card-item>
       <div class="d-flex align-center justify-space-between">
         <div class="d-flex flex-row align-center">
-          <v-avatar :image="avatar" class="me-4"/>
+          <v-avatar size="52" :image="avatar" class="me-4 avatar"/>
           <div class="d-flex flex-row align-center">
             <div>
               <v-card-title class="text-body-1 text-left">{{ nome  }}</v-card-title>
@@ -63,16 +63,6 @@
             <SetupDetails />
           </v-dialog>
         </v-btn>
-        <!-- <v-btn icon="mdi-information-outline">
-          <span class="text-body-1">ver mais...</span>
-          <v-icon>mdi-information-outline</v-icon>
-          <v-dialog
-            activator="parent"
-            width="auto"
-          >
-            <SetupDetails />
-          </v-dialog>
-        </v-btn> -->
       </div>
     </v-card-actions>
   </v-card>
@@ -100,3 +90,10 @@ const favorited = ref(false)
 const postProps = defineProps<props>()
 
 </script>
+
+<style scoped lang="css">
+.avatar {
+  border: solid 2px #37474F;
+  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3));
+}
+</style>
