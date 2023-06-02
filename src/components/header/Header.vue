@@ -27,15 +27,18 @@
       class=" rounded-circle elevation-1 me-sm-16 me-8"
     >
       <router-link to="/profile">
-        <v-avatar :image="userData?.imagem.url" size="44"></v-avatar>
+        <v-avatar 
+          class="avatar"
+          :image="userData?.imagem.url" 
+          size="44"
+        ></v-avatar>
       </router-link>
     </div>
   </v-app-bar>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
-import { onMounted } from 'vue';
+import { ref } from 'vue';
 import api from '@/services/api';
 import { userAuthStore } from '@/store/app'
 import { UserType } from '@/types/comonTypes'
@@ -53,7 +56,6 @@ async function getUserData() {
       }
     })
     userData.value = response.data
-    console.log(userData)
     return response
   } catch (error) {
     console.log(error)
@@ -65,5 +67,11 @@ if(auth.getAccessToken() && auth.getUserId()) {
   getUserData()
 }
 
-
 </script>
+
+<style scoped lang="css">
+.avatar {
+  border: solid 2px #37474F;
+  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3));
+}
+</style>
