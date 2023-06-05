@@ -1,13 +1,24 @@
 <template>
-    <v-sheet 
+    <v-card 
         class="bg-blue-grey-darken-4"
         rounded="lg"
-        elevation="10"
-        max-width="900"
+        elevation="10" 
+        width="100%"
     >
         <div class="d-lg-flex">
-           
-                <v-carousel hide-delimiters>
+                
+                <v-carousel 
+                    class="container"
+                    hide-delimiters
+                >
+                    <v-btn 
+                        class="btn"
+                        elevation="0"
+                        size="large"
+                        icon="mdi-close" 
+                        color="transparent"
+                        @click="$emit('close')"
+                    />
                     <v-carousel-item src="https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg" cover />
                     <v-carousel-item src="https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg" cover />
                     <v-carousel-item src="https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg" cover />
@@ -31,11 +42,26 @@
                     </v-card-item>
                     <v-card-actions>
                         <v-text-field
-                            placeholder="Comentarios"
+                            append-inner-icon="mdi-send"
+                            placeholder="Escreva um comentario"
                         />
                     </v-card-actions>
                 </v-card>
             
         </div>
-    </v-sheet>
+    </v-card>
 </template>
+
+<style scoped lang="css">
+.container {
+  position: relative;
+  display: inline-block;
+}
+
+.btn {
+  position: absolute;
+  top: 10px; 
+  left: 10px; 
+  z-index: 1;
+}
+</style>

@@ -50,19 +50,23 @@
         <v-btn size="small" icon="mdi-comment-processing-outline" />
         <v-btn size="small" icon="mdi-share-variant" />
       </div>
-      <div>
-        <v-btn
-          class="text-lowercase"
-        >
-          ver mais...  
-          <v-icon class="ms-1">mdi-information-outline</v-icon>
+      <div>   
           <v-dialog
-            activator="parent"
-            width="auto"
+              v-model="dialog"
+              max-width="800"
+              width="95%"
           >
-            <SetupDetails />
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  class="text-lowercase"
+                  v-bind="props"
+                >
+                  ver mais...  
+                  <v-icon class="ms-1">mdi-information-outline</v-icon>
+                </v-btn>
+              </template>
+              <SetupDetails @close="close"/>
           </v-dialog>
-        </v-btn>
       </div>
     </v-card-actions>
   </v-card>
@@ -86,8 +90,13 @@ interface props{
 
 const liked = ref(false)
 const favorited = ref(false)
+const dialog = ref<boolean>(false)
 
 const postProps = defineProps<props>()
+
+function close() {
+  dialog.value = false
+}
 
 </script>
 
