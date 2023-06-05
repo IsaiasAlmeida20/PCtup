@@ -62,67 +62,10 @@
                             Editar Perfil
                         </v-btn>
                     </template>
-                    <v-card 
-                        class="bg-blue-grey-darken-4"
-                        rounded="lg"
-                        elevation="10" 
-                    >
-                        <v-card-title class="text-h5">
-                            Atualização de dados
-                        </v-card-title>
-
-                        <v-card-item class="text-center">
-                            <v-avatar
-                                size="80" 
-                                :image="userData?.imagem.url"
-                            />
-                        </v-card-item>
-
-                        <v-card-text>
-                            <v-select
-                                label="Avatar"
-                                :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
-                            ></v-select>
-
-                            <v-text-field
-                                label="Name"
-                            ></v-text-field>
-
-                            <v-text-field
-                                label="Data de nascimento"
-                            ></v-text-field>
-
-                            <v-text-field
-                                label="Profissão"
-                            ></v-text-field>
-
-                            <v-text-field
-                                label="Cidade"
-                            ></v-text-field>
-
-                            <v-text-field
-                                label="Estado"
-                            ></v-text-field>
-                            
-                        </v-card-text>
-
-                        <v-card-actions>
-                        <v-btn
-                            color="green-darken-1"
-                            variant="text"
-                            @click="dialog = false"
-                        >
-                            Cancelar
-                        </v-btn>
-                        <v-btn
-                            color="green-darken-1"
-                            variant="text"
-                            @click="dialog = false"
-                        >
-                            Salvar
-                        </v-btn>
-                        </v-card-actions>
-                    </v-card>
+                    <UpdateProfile 
+                        @cancelar="cancelar"
+                        @atualizar="salvar" 
+                    />
                 </v-dialog>
                 <v-btn
                     color="deep-purple-lighten-2"
@@ -143,6 +86,7 @@ import router from '@/router';
 import api from '@/services/api';
 import { userAuthStore } from '@/store/app'
 import { UserType } from '@/types/comonTypes'
+import UpdateProfile from './UpdateProfile.vue';
 
 const auth = userAuthStore()
 
@@ -165,6 +109,13 @@ async function getUserData() {
   }
 }
 
+function cancelar(){
+    dialog.value = false
+}
+
+function salvar() {
+    dialog.value = false
+}
 
 function sair() {
     auth.setAcessToken('')
