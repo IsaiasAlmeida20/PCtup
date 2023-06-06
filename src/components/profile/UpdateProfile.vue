@@ -18,7 +18,7 @@
         <v-card-text>
             <v-select
                 label="Avatar"
-                :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                :items="profiles"
             ></v-select>
 
             <v-text-field
@@ -61,3 +61,10 @@
         </v-card-actions>
     </v-card>
 </template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import profiles from '@/components/profile/profiles.json'
+
+
+</script>

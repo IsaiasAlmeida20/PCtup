@@ -33,7 +33,7 @@
                     • E-mail: {{ userData?.email }}
                 </div>
                 <div class="my-4 text-subtitle-1">
-                    • Data de Nascimento: {{ userData?.dataNascimento}}
+                    • Data de Nascimento: {{ userData?.dataNascimento ? formatedDate(userData.dataNascimento) : 'N/A'}}
                 </div>
                 <div class="my-4 text-subtitle-1">
                     • Estado: {{ userData?.estado }}
@@ -82,11 +82,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import router from '@/router';
-import api from '@/services/api';
+import router from '@/router'
+import api from '@/services/api'
+import { format } from 'date-fns'
 import { userAuthStore } from '@/store/app'
 import { UserType } from '@/types/comonTypes'
-import UpdateProfile from './UpdateProfile.vue';
+import UpdateProfile from './UpdateProfile.vue'
 
 const auth = userAuthStore()
 
@@ -122,6 +123,11 @@ function sair() {
     auth.setUserId('')
     auth.setSetupId('')
     router.push("/")
+}
+
+const formatedDate = (data: string) => {
+  const dataFormatada = new Date(data);
+  return format(dataFormatada, 'dd/MM/yyyy');
 }
 
 onMounted(getUserData)
