@@ -33,7 +33,7 @@ export type PostType = {
 
 export type UserType = {
   nome: string,
-  email: string,
+  email?: string,
   cargo: string,
   profissao: string,
   dataNascimento: string,
@@ -43,8 +43,8 @@ export type UserType = {
       publicId: string,
       url: string
   },
-  createdAt: string,
-  id: string
+  createdAt?: string,
+  id?: string
 }
 
 export type CommentType = {

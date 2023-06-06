@@ -10,24 +10,31 @@
 
         <v-card-item class="text-center">
             <v-avatar
+                class="avatar"
                 size="80" 
-                image="https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg"
+                :image="getOptionUrl(selectedValue)"
             />
         </v-card-item>
 
         <v-card-text>
             <v-select
+                v-model="selectedValue"
+                :items="options"
+                item-title="publicId"
+                :item-value="['publicId',]"
                 label="Avatar"
-                :items="profiles"
             ></v-select>
 
             <v-text-field
                 label="Name"
+                
             ></v-text-field>
 
             <v-text-field
+                type="date"
                 label="Data de nascimento"
-            ></v-text-field>
+            >
+            </v-text-field>
 
             <v-text-field
                 label="Profissão"
@@ -54,7 +61,7 @@
         <v-btn
             color="green-darken-1"
             variant="text"
-            @click="$emit('atualizar')"
+            @click="send"
         >
             Salvar
         </v-btn>
@@ -63,8 +70,65 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import profiles from '@/components/profile/profiles.json'
+import { ref } from 'vue'
+import { userAuthStore } from '@/store/app'
 
+interface props{
+    
+}
+
+const emit = defineEmits(['atualizar'])
+
+const auth = userAuthStore()
+
+
+const options = [
+    {
+        "publicId": "001-user_r5qlh7",
+        "url": "https://res.cloudinary.com/dflegn4ln/image/upload/v1681341306/user/001-user_r5qlh7.png"
+    },
+    {
+        "publicId": "007-voter_ctvd8v",
+        "url": "https://res.cloudinary.com/dflegn4ln/image/upload/v1681341307/user/007-voter_ctvd8v.png"
+    },
+    {
+        "publicId": "003-woman_p56bqt",
+        "url": "https://res.cloudinary.com/dflegn4ln/image/upload/v1681341306/user/003-woman_p56bqt.png"
+    },
+    {
+        "publicId": "005-woman-1_pxsueb",
+        "url": "https://res.cloudinary.com/dflegn4ln/image/upload/v1681341306/user/005-woman-1_pxsueb.png"
+    },
+    {
+        "publicId": "006-acne_v2amnh",
+        "url": "https://res.cloudinary.com/dflegn4ln/image/upload/v1681341306/user/006-acne_v2amnh.png"
+    },
+    {
+        "publicId": "004-man_cxijip",
+        "url": "https://res.cloudinary.com/dflegn4ln/image/upload/v1681341306/user/004-man_cxijip.png"
+    },
+    {
+        "publicId": "002-agent_cjjoqf",
+        "url": "https://res.cloudinary.com/dflegn4ln/image/upload/v1681341306/user/002-agent_cjjoqf.png"
+    }
+]
+
+const selectedValue = ref()
+
+function getOptionUrl(publicId: string) {
+    const selected = options.find(option => option.publicId === publicId)
+    return selected ? selected.url : ''
+}
+
+function send() {
+    emit('atualizar')
+}
 
 </script>
+
+<style scoped lang="css">
+.avatar {
+  border: solid 2px #37474F;
+  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3));
+}
+</style>
