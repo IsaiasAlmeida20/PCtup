@@ -46,3 +46,12 @@ export type UserType = {
   createdAt: string,
   id: string
 }
+
+export type CommentType = {
+  id: string,
+  usuarioId: string,
+  setupId: string,
+  descricao: string,
+  createdAt: string,
+  updatedAt: string
+}

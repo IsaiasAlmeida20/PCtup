@@ -9,10 +9,13 @@
     <Setup 
       v-for="post in postData"
       :key="post.id"
+      :id="post?.id"
       :imagens="post.imagens"
       :created-at="formatedDate(post.createdAt)"
       :nome="post.usuario.nome"
       :avatar="post.usuario.imagem.url"
+      :titulo="post.titulo"
+      :descricao="post.descricao"
     />
   </div>
   <div v-else class="link mt-16">

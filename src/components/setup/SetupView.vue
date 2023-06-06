@@ -9,10 +9,13 @@
     <Setup 
       v-for="post in postData"
       :key="post.id"
+      :id="post?.id"
       :imagens="post.imagens"
       :created-at="formatedDate(post.createdAt)"
       :nome="post.usuario.nome"
       :avatar="post.usuario.imagem.url"
+      :titulo="post.titulo"
+      :descricao="post.descricao"
     />
   </div>
 </template>
@@ -34,6 +37,7 @@ async function getSetups() {
     console.error(error);
   }
 }
+
 
 const formatedDate = (data: string) => {
   const dataFormatada = new Date(data);

@@ -65,6 +65,18 @@ import Header from '@/components/header/Header.vue';
   
   @media (max-width: 1300px) {
     .container{
+      width: 70%;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .container{
+      width: 80%;
+    }
+  }
+
+  @media (max-width: 650px) {
+    .container{
       width: 100%;
     }
   }

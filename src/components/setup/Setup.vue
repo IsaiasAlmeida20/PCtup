@@ -53,7 +53,7 @@
       <div>   
           <v-dialog
               v-model="dialog"
-              max-width="800"
+              max-width="900"
               width="95%"
           >
               <template v-slot:activator="{ props }">
@@ -65,7 +65,15 @@
                   <v-icon class="ms-1">mdi-information-outline</v-icon>
                 </v-btn>
               </template>
-              <SetupDetails @close="close"/>
+              <SetupDetails 
+                :nome="nome" 
+                :created-at="createdAt"
+                :avatar="avatar"
+                :titulo="titulo"
+                :descricao="descricao"
+                :imagens="imagens"
+                @close="close"
+              />
           </v-dialog>
       </div>
     </v-card-actions>
@@ -78,6 +86,8 @@ import { ref } from 'vue'
 
 interface props{
   nome: string
+  descricao: string
+  titulo: string
   createdAt: string
   avatar: string
   imagens: [
@@ -97,6 +107,7 @@ const postProps = defineProps<props>()
 function close() {
   dialog.value = false
 }
+
 
 </script>
 
