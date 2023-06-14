@@ -1,12 +1,12 @@
 export type PostType = {
-    id: string,
+    _id: string,
     usuarioId: string,
     descricao: string,
     estaAtivo: boolean,
     estaPublico: boolean,
     imagens: [
       {
-        id: string,
+        publicId: string,
         url: string
       }
     ],
@@ -54,4 +54,43 @@ export type CommentType = {
   descricao: string,
   createdAt: string,
   updatedAt: string
+}
+
+export type FavoriteType = {
+  _id: string,
+  usuarioId: string,
+  setupId: string,
+  createdAt: string,
+  setup: {
+    _id: string,
+    usuarioId: string,
+    titulo: string,
+    descricao: string,
+    estaAtivo: boolean,
+    estaPublico: boolean,
+    imagens: [
+      {
+        publicId: string,
+        url: string
+      }
+    ],
+    createdAt: string,
+    updatedAt: string,
+    usuario: {
+      _id: string,
+      nome: string,
+      email: string,
+      dataNascimento: string,
+      profissao: string,
+      estado: string,
+      cidade: string,
+      cargo: string,
+      imagem: {
+        publicId: string,
+        url: string
+      },
+      createdAt: string,
+      updatedAt: string
+    }
+  }
 }

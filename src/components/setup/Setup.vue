@@ -18,7 +18,7 @@
         <v-icon
           class="float-end me-2"
           v-model="favorited"
-          @click="favorited = !favorited"
+          @click="favorite"
           :color=" favorited ? 'yellow' : 'white'"
           :icon=" favorited ? 'mdi-star' : 'mdi-star-outline'"
         />
@@ -92,7 +92,7 @@ interface props{
   avatar: string
   imagens: [
     {
-      id: string
+      publicId: string
       url: string
     }
   ]
@@ -102,12 +102,18 @@ const liked = ref(false)
 const favorited = ref(false)
 const dialog = ref<boolean>(false)
 
+const emit = defineEmits(['favorite'])
+
 const postProps = defineProps<props>()
 
 function close() {
   dialog.value = false
 }
 
+function favorite(){
+  emit('favorite')
+  favorited.value = !favorited.value
+}
 
 </script>
 

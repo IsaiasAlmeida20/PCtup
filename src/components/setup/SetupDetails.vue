@@ -91,7 +91,7 @@ interface props{
   avatar: string
   imagens: [
     {
-      id: string
+      publicId: string
       url: string
     }
   ]
