@@ -73,14 +73,9 @@
 import { ref } from 'vue'
 import { userAuthStore } from '@/store/app'
 
-interface props{
-    
-}
-
-const emit = defineEmits(['atualizar'])
-
 const auth = userAuthStore()
 
+const emit = defineEmits(['atualizar'])
 
 const options = [
     {
