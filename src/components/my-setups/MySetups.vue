@@ -8,8 +8,7 @@
     />
     <Setup 
       v-for="post in postData"
-      :key="post.id"
-      :id="post?.id"
+      :key="post._id"
       :imagens="post.imagens"
       :created-at="formatedDate(post.createdAt)"
       :nome="post.usuario.nome"
