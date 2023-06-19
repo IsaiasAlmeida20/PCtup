@@ -32,13 +32,24 @@
                 elevation="0"
             >
                 <v-card-item>
-                    <div class="d-flex flex-row align-center mb-2">
-                        <v-avatar size="52" :image="avatar" class="me-4 avatar"/>
-                        <div class="d-flex flex-row align-center">
-                            <div>
-                                <v-card-title class="text-body-1 text-left">{{ nome }}</v-card-title>
-                                <v-card-subtitle class="text-caption float-start">{{ createdAt }}</v-card-subtitle>
+                    <div class="d-flex flex-row align-center justify-space-between">
+                        <div class="d-flex flex-row align-center mb-2">
+                            <v-avatar size="52" :image="avatar" class="me-4 avatar"/>
+                            <div class="d-flex flex-row align-center">
+                                <div>
+                                    <v-card-title class="text-body-1 text-left">{{ nome }}</v-card-title>
+                                    <v-card-subtitle class="text-caption float-start">{{ createdAt }}</v-card-subtitle>
+                                </div>
                             </div>
+                        </div>
+                        <div>
+                            <v-btn 
+                                v-show="$route.fullPath.includes('/my-setups')"
+                                icon="mdi-trash-can-outline"
+                                elevation="0"
+                                color="blue-grey-darken-4"
+                                @click="trash(imagens, setupId)"
+                            />
                         </div>
                     </div>
                     <v-divider />
@@ -84,17 +95,18 @@ import api from '@/services/api'
 import { CommentType } from '@/types/comonTypes'
 
 interface props{
-  nome: string
-  descricao: string
-  titulo: string
-  createdAt: string
-  avatar: string
-  imagens: [
-    {
-      publicId: string
-      url: string
-    }
-  ]
+    setupId?: string
+    nome: string
+    descricao: string
+    titulo: string
+    createdAt: string
+    avatar: string
+    imagens: [
+        {
+        publicId: string
+        url: string
+        }
+    ]
 }
 
 const postProps = defineProps<props>()
@@ -108,6 +120,14 @@ async function getComments(setupId: string) {
   } catch (error) {
     console.error(error);
   }
+}
+
+function trash(imagems: [{ publicId: string; url: string; }], setupId:string | undefined){
+    for (const item in imagems) {
+        console.log(item)
+    }
+    console.log(setupId)
+
 }
 
 
