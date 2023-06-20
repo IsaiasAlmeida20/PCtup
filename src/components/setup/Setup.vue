@@ -80,8 +80,8 @@
   </v-card>
 </template>
 
+
 <script lang="ts" setup>
-import { id } from 'date-fns/locale';
 import SetupDetails from './SetupDetails.vue';
 import { ref } from 'vue'
 

@@ -30,11 +30,6 @@ const routes = [
           {
             path: '',
             component: SetupDescription
-          },
-          {
-            path: '/image',
-            name: 'image',
-            component: SetupImage
           }
         ]
       },

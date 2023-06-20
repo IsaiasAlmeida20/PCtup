@@ -28,7 +28,7 @@
             </v-carousel>
         
             <v-card 
-                class="bg-blue-grey-darken-4 h-100 w-100"
+                class="bg-blue-grey-darken-4 w-100"
                 elevation="0"
             >
                 <v-card-item>
@@ -45,6 +45,12 @@
                         <div>
                             <v-btn 
                                 v-show="$route.fullPath.includes('/my-setups')"
+                                icon="mdi-pencil-outline"
+                                elevation="0"
+                                color="blue-grey-darken-4"
+                            />
+                            <v-btn 
+                                v-show="$route.fullPath.includes('/my-setups')"
                                 icon="mdi-trash-can-outline"
                                 elevation="0"
                                 color="blue-grey-darken-4"
@@ -52,18 +58,20 @@
                             />
                         </div>
                     </div>
+
                     <v-divider />
+
                     <div class="text-center mt-4">
                         <v-card-title>{{ titulo }}</v-card-title>
                     </div>
                         <v-card-text class="description ma-2">
                             {{ descricao }}
                         </v-card-text>
-                    <div class="comments">
+                    <div class="comments" @load="getComments(setupId || '')">
                         <div                              
                             v-for="(item, i) in comments"
                             :key="i"
-                            >
+                        >
                             <ul>
                                 <li>
                                     <div class="bg-blue-grey-darken-2 ma-2 rounded-lg">
@@ -78,7 +86,7 @@
                         </div>
                     </div>
                 </v-card-item>
-                <v-card-actions>
+                <v-card-actions >
                     <v-text-field
                         append-inner-icon="mdi-send"
                         placeholder="Escreva um comentario"
@@ -127,7 +135,6 @@ function trash(imagems: [{ publicId: string; url: string; }], setupId:string | u
         console.log(item)
     }
     console.log(setupId)
-
 }
 
 
@@ -153,7 +160,7 @@ function trash(imagems: [{ publicId: string; url: string; }], setupId:string | u
 
 .comments {
     max-height: 157px;
-    overflow: scroll;
+    overflow: hidden;
 }
 
 .user-comment {
@@ -162,6 +169,6 @@ function trash(imagems: [{ publicId: string; url: string; }], setupId:string | u
 
 .description {
     height: 100px;
-    overflow: scroll;
+    overflow: hidden;
 }
 </style>

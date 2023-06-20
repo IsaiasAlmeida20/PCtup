@@ -6,7 +6,7 @@
         class="bg-blue-grey-darken-4"
         rounded="lg"
       >
-      <h1 class="text-h5 ma-4">Títlo e descrição</h1>
+      <h1 class="text-h5 ma-4">Novo Setup</h1>
         <form 
           class="ma-4" 
         >
@@ -36,6 +36,7 @@
         </form>
         <v-btn
           class="bg-deep-purple-accent-4 float-end ma-4"
+          :loading="loading"
           @click="send"
         >
           Salvar
@@ -61,6 +62,7 @@ import { SetupDescription } from './index'
 const auth = userAuthStore()
 const fileInput = ref<any>();
 const previewUrl = ref<any>();
+const loading = ref<boolean>(false)
 
 const setupDescription = reactive<SetupDescription>({
   usuarioId: auth.getUserId(),
@@ -80,28 +82,20 @@ function previewImage(): void{
 }
 
 async function send(){
-  try {
-    const response = await api.post("/setups", setupDescription)
-    const id = response.data._id
-    if(id){
-      const file = fileInput.value.files[0];
-      const formData = new FormData();
-      formData.append('image', file);
-      try {
-        const response = await api.post(`/setups/${id}/images`, formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          })
-        router.push("/")
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  } catch (error) {
-    console.log(error)
+  loading.value = true
+  const response = await api.post("/setups", setupDescription)
+  const id = response.data._id
+  if(id){
+    const file = fileInput.value.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+    api.post(`/setups/${id}/images`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+    router.push("/")
   }
-  console.log(setupDescription)
 }
 
 </script>
