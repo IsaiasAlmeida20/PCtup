@@ -54,7 +54,6 @@
                                 icon="mdi-trash-can-outline"
                                 elevation="0"
                                 color="blue-grey-darken-4"
-                                @click="trash(imagens, setupId)"
                             />
                         </div>
                     </div>
@@ -67,7 +66,10 @@
                         <v-card-text class="description ma-2">
                             {{ descricao }}
                         </v-card-text>
-                    <div class="comments" @load="getComments(setupId || '')">
+                </v-card-item>
+                <v-card-text>
+                    <h3 class="text-subtitle-2 ms-6">Comentarios</h3>
+                    <div class="comments">
                         <div                              
                             v-for="(item, i) in comments"
                             :key="i"
@@ -79,15 +81,18 @@
                                             <v-avatar size="30" :image="avatar" class="avatar"/>
                                             <v-card-text class="text-subtitle-1 float-start">{{ nome }}</v-card-text> 
                                         </div> 
-                                        <div class="ms-12 text-caption">{{ item.descricao }}</div>   
+                                        <div class="ms-12 text-caption">{{ item }}</div>   
                                     </div>
                                 </li>
                             </ul>                               
                         </div>
                     </div>
-                </v-card-item>
-                <v-card-actions >
+                </v-card-text>
+                <v-card-actions class="pb-0">
                     <v-text-field
+                        v-model="comment"
+                        @click:append-inner="send"
+                        density="compact"
                         append-inner-icon="mdi-send"
                         placeholder="Escreva um comentario"
                     />
@@ -98,7 +103,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import api from '@/services/api'
 import { CommentType } from '@/types/comonTypes'
 
@@ -117,26 +122,34 @@ interface props{
     ]
 }
 
+const comment = ref<string>()
+
 const postProps = defineProps<props>()
 
-const comments = reactive<CommentType[]>([])
+const comments = reactive<string[]>([
+    'asafjkhlsuhsuef',
+    'asafjkhlsuhsuef',
+    'asafjkhlsuhsuef',
+    'asafjkhlsuhsuef',
+    'asafjkhlsuhsuef',
+    'asafjkhlsuhsuef',
+    'asafjkhlsuhsuef',
+    'asafjkhlsuhsuef',
+    'asafjkhlsuhsuef',
+    'asafjkhlsuhsuef',
+])
 
-async function getComments(setupId: string) {
-  try {
-    const response = await api.get<CommentType[]>(`/comments/setups/${setupId}`);
-    comments.splice(0, comments.length, ...response.data);
-  } catch (error) {
-    console.error(error);
-  }
+// async function getComments(setupId: string) {
+//   try {
+//     const response = await api.get<CommentType[]>(`/comments/setups/${setupId}`);
+//     comments.splice(0, comments.length, ...response.data);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
+function send() {
+    console.log(comment.value)
 }
-
-function trash(imagems: [{ publicId: string; url: string; }], setupId:string | undefined){
-    for (const item in imagems) {
-        console.log(item)
-    }
-    console.log(setupId)
-}
-
 
 </script>
 
@@ -159,16 +172,29 @@ function trash(imagems: [{ publicId: string; url: string; }], setupId:string | u
 }
 
 .comments {
-    max-height: 157px;
-    overflow: hidden;
+    max-height: 150px;
+    overflow-y: scroll;
+}
+
+.comments::-webkit-scrollbar { 
+  display: none;
 }
 
 .user-comment {
     max-height: 35px;
 }
 
+.card-comments {
+    position: relative;
+    bottom: -27%;
+}
+
 .description {
     height: 100px;
-    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.description::-webkit-scrollbar { 
+  display: none;
 }
 </style>
