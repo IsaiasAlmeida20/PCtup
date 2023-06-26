@@ -57,7 +57,7 @@ async function getSetups() {
 
 async function getSetupsFavorites() {
   try {
-    const response = await api.get<FavoriteType[]>(`/favorites/users/${auth.getUserId()}`)
+    const response = await api.get<FavoriteType[]>(`/favorites/users/${userId.value}`)
     postFavoriteData.splice(0, postFavoriteData.length, ...response.data)
   } catch (error) {
     console.error(error)
@@ -102,7 +102,9 @@ const formatedDate = (data: string) => {
 onMounted(getSetups)
 
 if (auth.getAccessToken()) {
-  getSetupsFavorites()
+  setTimeout(() => {
+    getSetupsFavorites()
+  }, 3000)
 }
 
 
