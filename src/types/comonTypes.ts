@@ -4,6 +4,7 @@ export type PostType = {
     descricao: string,
     estaAtivo: boolean,
     estaPublico: boolean,
+    favorited?: boolean
     imagens: [
       {
         publicId: string,
