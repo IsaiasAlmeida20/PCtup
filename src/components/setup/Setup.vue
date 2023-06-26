@@ -41,11 +41,12 @@
     <v-card-actions class="d-flex justify-space-between">
       <div>
         <v-btn 
-          v-model="liked"
-          @click="liked = !liked"
+          @click="like"
           :color=" liked ? 'red' : 'white' "
-          :icon=" liked ? 'mdi-heart' : 'mdi-heart-outline'"
-        />
+          :prepend-icon=" liked ? 'mdi-heart' : 'mdi-heart-outline'"
+        >
+          <span class="text-caption text-white ms-0">2</span>
+        </v-btn>
         <v-btn size="small" icon="mdi-comment-processing-outline" />
         <v-btn size="small" icon="mdi-share-variant" />
       </div>
@@ -91,6 +92,7 @@ interface props{
   createdAt: string
   avatar: string
   favorited: boolean
+  liked: boolean
   imagens: [
     {
       publicId: string
@@ -99,10 +101,9 @@ interface props{
   ]
 }
 
-const liked = ref(false)
 const dialog = ref<boolean>(false)
 
-const emit = defineEmits(['favorite'])
+const emit = defineEmits(['favorite', 'like'])
 
 const postProps = defineProps<props>()
 
@@ -112,6 +113,10 @@ function close() {
 
 function favorite(){
   emit('favorite')
+}
+
+function like(){
+  emit('like')
 }
 
 </script>

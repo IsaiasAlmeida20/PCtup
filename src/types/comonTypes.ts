@@ -95,3 +95,10 @@ export type FavoriteType = {
     }
   }
 }
+
+export type LikeType = {
+  _id: string,
+  usuarioId: string,
+  setupId: string,
+  createdAt: string
+}
