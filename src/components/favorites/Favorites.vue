@@ -15,6 +15,8 @@
       :avatar="post.setup.usuario.imagem.url"
       :titulo="post.setup.titulo"
       :descricao="post.setup.descricao"
+      :favorited="isFavorite(post._id)"
+      @favorite="favorite(post._id)"
     />
   </div>
   <div v-else class="link mt-16">
@@ -32,8 +34,8 @@ import { FavoriteType } from '@/types/comonTypes'
 import { userAuthStore } from '@/store/app'
 import Setup from '@/components/setup/Setup.vue'
 
-const auth = userAuthStore()
 
+const auth = userAuthStore()
 const postData = reactive<FavoriteType[]>([])
 
 async function getSetups() {
@@ -46,12 +48,26 @@ async function getSetups() {
   }
 }
 
+async function favorite(id: string) {
+  try {
+    await api.delete(`/favorites/${id}`)
+  } catch (error) {
+    console.log(error)
+  } 
+}
+
+function isFavorite(postId: string): boolean {
+  return postId ? true : false
+}
+
 const formatedDate = (data: string) => {
   const dataFormatada = new Date(data);
   return format(dataFormatada, 'dd/MM/yyyy');
 }
 
-onMounted(getSetups)
+if(auth.getAccessToken()) {
+  onMounted(getSetups)
+}
 
 </script>
 

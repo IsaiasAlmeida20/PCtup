@@ -91,7 +91,6 @@ interface props{
   createdAt: string
   avatar: string
   favorited: boolean
-  favoriteId?: string
   imagens: [
     {
       publicId: string
