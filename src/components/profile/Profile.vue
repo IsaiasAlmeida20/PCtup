@@ -121,7 +121,6 @@ function salvar() {
 function sair() {
     auth.setAcessToken('')
     auth.setUserId('')
-    auth.setSetupId('')
     router.push("/")
 }
 
