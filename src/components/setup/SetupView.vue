@@ -18,13 +18,11 @@
       :descricao="post.descricao"
       :favorited="isFavorite(post._id)"
       @favorite="favorite({
-        userId: post.usuarioId, 
         setupId: post._id, 
         isFavorite: isFavorite(post._id), 
       })"
       :liked="isLike(post._id)"
       @like="like({
-        userId: post.usuarioId, 
         setupId: post._id, 
         isLike: isLike(post._id), 
       })"
@@ -42,13 +40,11 @@ import { PostType, FavoriteType, LikeType } from '@/types/comonTypes'
 import Setup from './Setup.vue'
 
 interface favoriteProps {
-  userId: string, 
   setupId: string,
   isFavorite: boolean
 }
 
 interface likeProps {
-  userId: string, 
   setupId: string,
   isLike: boolean
 }
@@ -57,7 +53,7 @@ const auth = userAuthStore()
 const postData = reactive<PostType[]>([])
 const postFavoriteData = reactive<FavoriteType[]>([])
 const userLikeData = reactive<LikeType[]>([])
-const userId = ref<string>(auth.getUserId() || '')
+const userId = auth.getUserId()
 
 async function getSetups() {
   try {
@@ -70,7 +66,13 @@ async function getSetups() {
 
 async function getSetupsFavorites() {
   try {
-    const response = await api.get<FavoriteType[]>(`/favorites/users/${userId.value}`)
+    const response = await api.get<FavoriteType[]>(`/favorites/users/${userId}`,
+      {
+        headers: {
+          Authorization: auth.getAccessToken()
+        }
+      }
+    )
     postFavoriteData.splice(0, postFavoriteData.length, ...response.data)
   } catch (error) {
     console.error(error)
@@ -80,15 +82,19 @@ async function getSetupsFavorites() {
 async function favorite(props: favoriteProps) {
   try {
     if(!props.isFavorite){
-      console.log(props.isFavorite)
       return await api.post('/favorites', {
-        usuarioId: props.userId,
+        usuarioId: userId,
         setupId: props.setupId
-      })
+      },
+      {
+        headers: {
+          Authorization: auth.getAccessToken()
+        }
+      }
+      )
     }
 
     const favoriteId = idFavorite(props.setupId)
-    console.log('f', favoriteId)
 
     await api.delete(`/favorites/${favoriteId}`)
   } catch (error) {
@@ -108,13 +114,16 @@ function idFavorite(postId: string) {
   }
 }
 
-//################################# LIKESSS
-
 
 async function getUserSetupsLikes() {
   try {
-    const response = await api.get<LikeType[]>(`/likes/users/${userId.value}`)
-    console.log(response.data)
+    const response = await api.get<LikeType[]>(`/likes/users/${userId}`,
+      {
+        headers: {
+          Authorization: auth.getAccessToken()
+        }
+      }
+    )
     userLikeData.splice(0, userLikeData.length, ...response.data)
   } catch (error) {
     console.error(error)
@@ -124,10 +133,13 @@ async function getUserSetupsLikes() {
 async function like(props: likeProps) {
   try {
     if(!props.isLike){
-      console.log(props.isLike)
       return await api.post('/likes', {
-        "usuarioId": props.userId,
+        "usuarioId": userId,
         "setupId": props.setupId
+      }, {
+        headers: {
+          Authorization: auth.getAccessToken()
+        }
       })
     }
 
