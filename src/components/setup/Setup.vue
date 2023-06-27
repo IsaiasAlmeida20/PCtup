@@ -15,12 +15,18 @@
             </div>
           </div>
         </div>
-        <v-icon
-          class="float-end me-2"
-          @click="favorite"
-          :color=" favorited ? 'yellow' : 'white'"
-          :icon=" favorited ? 'mdi-star' : 'mdi-star-outline'"
-        />
+        <div  class="float-end me-0">
+          <v-card-actions>
+            <div>
+              <v-btn 
+                @click="favorite"
+                :loading="loadingFav"
+                :color=" favorited ? 'yellow' : 'white'"
+                :icon=" favorited ? 'mdi-star' : 'mdi-star-outline'"
+              />
+            </div>
+          </v-card-actions>
+        </div>
       </div>
     </v-card-item>
 
@@ -42,10 +48,11 @@
       <div>
         <v-btn 
           @click="like"
+          :loading="loadingLike"
           :color=" liked ? 'red' : 'white' "
           :prepend-icon=" liked ? 'mdi-heart' : 'mdi-heart-outline'"
         >
-          <span class="text-caption text-white ms-0">2</span>
+          <span class="text-caption text-white ms-0">{{ likes }}</span>
         </v-btn>
         <v-btn size="small" icon="mdi-comment-processing-outline" />
         <v-btn size="small" icon="mdi-share-variant" />
@@ -66,7 +73,9 @@
                 </v-btn>
               </template>
               <SetupDetails 
+                :setup-id="setupId"
                 :nome="nome" 
+                :user-id="userId"
                 :created-at="createdAt"
                 :avatar="avatar"
                 :titulo="titulo"
@@ -86,6 +95,8 @@ import SetupDetails from './SetupDetails.vue';
 import { ref } from 'vue'
 
 interface props{
+  setupId:string
+  userId: string
   nome: string
   descricao: string
   titulo: string
@@ -93,6 +104,7 @@ interface props{
   avatar: string
   favorited: boolean
   liked: boolean
+  likes: any
   imagens: [
     {
       publicId: string
@@ -102,6 +114,8 @@ interface props{
 }
 
 const dialog = ref<boolean>(false)
+const loadingFav = ref<boolean>(false)
+const loadingLike = ref<boolean>(false)
 
 const emit = defineEmits(['favorite', 'like'])
 
@@ -112,10 +126,18 @@ function close() {
 }
 
 function favorite(){
+  loadingFav.value = true
+  setTimeout(() => {
+    loadingFav.value = false
+  },3000)
   emit('favorite')
 }
 
 function like(){
+  loadingLike.value = true
+  setTimeout(() => {
+    loadingLike.value = false
+  },2000)
   emit('like')
 }
 

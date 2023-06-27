@@ -10,12 +10,15 @@
       v-for="post in postData"
       :key="post._id"
       :id="post?._id"
+      :setup-id="post._id"
+      :user-id="post.usuarioId"
       :imagens="post.imagens"
       :created-at="formatedDate(post.createdAt)"
       :nome="post.usuario.nome"
       :avatar="post.usuario.imagem.url"
       :titulo="post.titulo"
       :descricao="post.descricao"
+      :likes="1"
       :favorited="isFavorite(post._id)"
       @favorite="favorite({
         setupId: post._id, 
@@ -144,13 +147,14 @@ async function like(props: likeProps) {
           }
         }
       ),
-
-      getUserSetupsLikes()
+      getUserSetupsLikes(),
+      getLikesConts(props.setupId)
       
     }else{
       const likeId = idLike(props.setupId)
       await api.delete(`/likes/${likeId}`),
-      getUserSetupsLikes()
+      getUserSetupsLikes(),
+      getLikesConts(props.setupId)
     }
 
   } catch (error) {
@@ -168,6 +172,13 @@ function idLike(postId: string) {
       return like._id
     }
   }
+}
+
+async function getLikesConts(setupId: string) {
+  const response = await api.get(`/likes/count?setupId=${setupId}`)
+  let like = 0
+  like = Number(response.data.count) ? Number(response.data.count) : 0
+  return like
 }
 
 const formatedDate = (data: string) => {
