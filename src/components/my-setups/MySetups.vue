@@ -1,11 +1,18 @@
 <template>
   <div v-if="auth.getAccessToken()">
-    <v-progress-circular
-      class="mt-10"
+    <v-chip
       v-if="postData.length === 0"
-      indeterminate
-      color="primary"
-    />
+    >
+      Aqui serão exibidos todos os seus setups ;)
+    </v-chip>
+    <div>
+      <v-progress-circular
+        class="mt-10"
+        v-if="postData.length === 0"
+        indeterminate
+        color="primary"
+      />
+    </div>
     <Setup 
       v-for="post in postData"
       :key="post._id"
@@ -81,21 +88,23 @@ async function getSetupsFavorites() {
 async function favorite(props: favoriteProps) {
   try {
     if(!props.isFavorite){
-      return await api.post('/favorites', {
-        userId,
-        setupId: props.setupId
-      },
-      {
-        headers: {
-          Authorization: auth.getAccessToken()
+        return await api.post('/favorites', {
+          usuarioId: userId,
+          setupId: props.setupId
+        },
+        {
+          headers: {
+            Authorization: auth.getAccessToken()
+          }
         }
-      }
-      )
+      ),
+      getSetupsFavorites()
+    }else {
+      const favoriteId = idFavorite(props.setupId)
+      await api.delete(`/favorites/${favoriteId}`),
+      getSetupsFavorites()
     }
 
-    const favoriteId = idFavorite(props.setupId)
-
-    await api.delete(`/favorites/${favoriteId}`)
   } catch (error) {
     console.log(error)
   } 
@@ -141,12 +150,13 @@ async function like(props: likeProps) {
             Authorization: auth.getAccessToken()
           }
         }
-      )
+      ),
+      getUserSetupsLikes()
+    }else {
+      const likeId = idLike(props.setupId)
+      await api.delete(`/likes/${likeId}`),
+      getUserSetupsLikes()
     }
-
-    const likeId = idLike(props.setupId)
-
-    await api.delete(`/likes/${likeId}`)
   } catch (error) {
     console.log(error)
   } 

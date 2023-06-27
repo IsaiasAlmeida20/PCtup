@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 
-import { ref, reactive, onMounted } from 'vue'
+import { reactive, onMounted } from 'vue'
 import { format } from 'date-fns';
 import api from '@/services/api'
 import { userAuthStore } from '@/store/app'
@@ -82,21 +82,23 @@ async function getSetupsFavorites() {
 async function favorite(props: favoriteProps) {
   try {
     if(!props.isFavorite){
-      return await api.post('/favorites', {
-        usuarioId: userId,
-        setupId: props.setupId
-      },
-      {
-        headers: {
-          Authorization: auth.getAccessToken()
+        return await api.post('/favorites', {
+          usuarioId: userId,
+          setupId: props.setupId
+        },
+        {
+          headers: {
+            Authorization: auth.getAccessToken()
+          }
         }
-      }
-      )
+      ),
+      getSetupsFavorites()
+    }else{
+      const favoriteId = idFavorite(props.setupId)
+      await api.delete(`/favorites/${favoriteId}`),
+      getSetupsFavorites()
     }
 
-    const favoriteId = idFavorite(props.setupId)
-
-    await api.delete(`/favorites/${favoriteId}`)
   } catch (error) {
     console.log(error)
   } 
@@ -134,18 +136,23 @@ async function like(props: likeProps) {
   try {
     if(!props.isLike){
       return await api.post('/likes', {
-        "usuarioId": userId,
-        "setupId": props.setupId
-      }, {
-        headers: {
-          Authorization: auth.getAccessToken()
+          "usuarioId": userId,
+          "setupId": props.setupId
+        }, {
+          headers: {
+            Authorization: auth.getAccessToken()
+          }
         }
-      })
+      ),
+
+      getUserSetupsLikes()
+      
+    }else{
+      const likeId = idLike(props.setupId)
+      await api.delete(`/likes/${likeId}`),
+      getUserSetupsLikes()
     }
 
-    const likeId = idLike(props.setupId)
-
-    await api.delete(`/likes/${likeId}`)
   } catch (error) {
     console.log(error)
   } 
@@ -172,8 +179,8 @@ onMounted(getSetups)
 
 if (auth.getAccessToken()) {
   setTimeout(() => {
-    getSetupsFavorites()
-    getUserSetupsLikes()
+      getSetupsFavorites(),
+      getUserSetupsLikes()
   }, 3000)
 }
 
