@@ -27,12 +27,27 @@
                                 elevation="0"
                                 color="blue-grey-darken-4" 
                             />
-                            <v-btn 
-                                v-show="$route.fullPath.includes('/my-setups')" 
-                                icon="mdi-trash-can-outline"
-                                elevation="0" 
-                                color="blue-grey-darken-4" @click="deleteSetup(setupId)"
-                            />
+                            <v-dialog v-model="dialogSetup" width="300">
+                                <template v-slot:activator="{ props }">
+                                    <v-btn 
+                                        v-bind="props"
+                                        v-show="$route.fullPath.includes('/my-setups')" 
+                                        icon="mdi-trash-can-outline"
+                                        elevation="0" 
+                                        color="blue-grey-darken-4" 
+                                    />
+                                </template>
+
+                                <v-card color="blue-grey-darken-2">
+                                    <v-card-title class="text-body-1">Quer mesmo deletar este setup?</v-card-title>
+                                    <v-card-actions>
+                                        <v-btn variant="tonal" @click="dialogSetup = !deleteSetup"> Não </v-btn>
+                                        <v-btn variant="tonal" @click="deleteSetup(setupId), dialogSetup = !dialogSetup">
+                                            Sim
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
                         </div>
                     </div>
 
@@ -76,13 +91,27 @@
                                                 </div>
                                             </div>
                                             <div  class="float-end me-4 rounded-lg" v-show="userId === item.usuarioId">
-                                                <v-btn 
-                                                    size="24"
-                                                    color="blue-grey-darken-2"
-                                                    elevation="0"
-                                                    icon="mdi-delete-outline"
-                                                    @click="deleteComment(item._id, setupId)"
-                                                />
+                                                <v-dialog v-model="dialogComment" width="400">
+                                                    <template v-slot:activator="{ props }">
+                                                        <v-btn 
+                                                            v-bind="props"
+                                                            size="24"
+                                                            icon="mdi-trash-can-outline"
+                                                            elevation="0" 
+                                                            color="blue-grey-darken-2" 
+                                                        />
+                                                    </template>
+
+                                                    <v-card color="blue-grey-darken-2">
+                                                        <v-card-title class="text-body-1">Quer mesmo deletar este comentario?</v-card-title>
+                                                        <v-card-actions>
+                                                            <v-btn variant="tonal" @click="dialogComment = !dialogComment"> Não </v-btn>
+                                                            <v-btn variant="tonal" @click="deleteComment(item._id, setupId), dialogComment = !dialogComment">
+                                                                Sim
+                                                            </v-btn>
+                                                        </v-card-actions>
+                                                    </v-card>
+                                                </v-dialog>
                                             </div>
                                         </div>
                                         <div class="ms-12 mb-4 pb-2 pt-2">{{ item.descricao }}</div>
@@ -95,7 +124,7 @@
                 <v-card-actions class="pb-0">
                     <v-text-field 
                         v-model="comment" 
-                        @click:append-inner="send(setupId)" 
+                        @click:append-inner="send(setupId), comment = ''" 
                         density="compact"
                         append-inner-icon="mdi-send" 
                         placeholder="Escreva um comentario" 
@@ -132,6 +161,8 @@ interface props {
 const auth = userAuthStore()
 const userId = auth.getUserId()
 
+const dialogSetup = ref<boolean>(false)
+const dialogComment = ref<boolean>(false)
 const comment = ref<string>()
 const postProps = defineProps<props>()
 const comments = reactive<CommentType[]>([])
