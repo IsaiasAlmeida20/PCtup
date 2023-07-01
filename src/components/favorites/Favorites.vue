@@ -16,7 +16,7 @@
     <Setup 
       v-for="post in postData"
       :key="post.setup._id"
-      :setup-id="post._id"
+      :setup-id="post.setup._id"
       :user-id="post.usuarioId"
       :imagens="post.setup.imagens"
       :created-at="formatedDate(post.setup.createdAt)"

@@ -49,12 +49,28 @@ export type UserType = {
 }
 
 export type CommentType = {
-  id: string,
+  _id: string,
   usuarioId: string,
   setupId: string,
   descricao: string,
   createdAt: string,
-  updatedAt: string
+  updatedAt: string,
+  usuario: {
+    _id: string,
+    nome: string,
+    email: string,
+    dataNascimento: string,
+    profissao: string,
+    estado: string,
+    cidade: string,
+    cargo: string,
+    imagem: {
+      publicId: string,
+      url: string
+    },
+    createdAt: string,
+    updatedAt: string
+  }
 }
 
 export type FavoriteType = {

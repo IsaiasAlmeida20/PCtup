@@ -1,5 +1,5 @@
 <template>
-    <v-card class="bg-blue-grey-darken-4" rounded="lg" elevation="10" width="100%">
+    <v-card @vnode-mounted="getComments(setupId)" class="bg-blue-grey-darken-4" rounded="lg" elevation="10" width="100%">
         <div class="d-md-flex">
 
             <v-carousel class="container mb-0" hide-delimiters>
@@ -48,15 +48,44 @@
                 <v-card-text>
                     <h3 class="text-subtitle-2 ms-6">Comentarios</h3>
                     <div class="comments">
+                        <div v-if="comments.length === 0">
+                            <v-chip v-if="comments.length === 0" class="mt-10">
+                                Aqui serão exibidos os comentarios do setup ;)
+                            </v-chip>
+                            <div>
+                                <v-progress-linear
+                                    v-if="comments.length === 0"
+                                    class="mt-10 mb-10"
+                                    indeterminate
+                                    color="cyan"
+                                />
+                            </div>
+                        </div>
                         <div v-for="(item, i) in comments" :key="i">
                             <ul>
                                 <li>
-                                    <div class="bg-blue-grey-darken-2 ma-2 rounded-lg">
-                                        <div class="d-flex flex-row align-center ms-2 user-comment">
-                                            <v-avatar size="30" :image="avatar" class="avatar" />
-                                            <v-card-text class="text-subtitle-1 float-start">{{ nome }}</v-card-text>
+                                    <div class="bg-blue-grey-darken-2 rounded-lg mb-4">
+                                        <div class="d-flex align-center justify-space-between rounded-lg">
+                                            <div class="d-flex flex-row align-center ms-2">
+                                                <v-avatar size="32" :image="item.usuario.imagem.url" class="me-2 avatar"/>
+                                                <div class="d-flex flex-row align-center">
+                                                    <div>
+                                                        <v-card-text class="pa-0">{{ item.usuario.nome  }}</v-card-text >
+                                                        <v-card-text class="text-caption float-start pa-0">{{ formatedDate(item.createdAt) }}</v-card-text >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div  class="float-end me-4 rounded-lg" v-show="userId === item.usuarioId">
+                                                <v-btn 
+                                                    size="24"
+                                                    color="blue-grey-darken-2"
+                                                    elevation="0"
+                                                    icon="mdi-delete-outline"
+                                                    @click="deleteComment(item._id, setupId)"
+                                                />
+                                            </div>
                                         </div>
-                                        <div class="ms-12 text-caption">{{ item }}</div>
+                                        <div class="ms-12 mb-4 pb-2 pt-2">{{ item.descricao }}</div>
                                     </div>
                                 </li>
                             </ul>
@@ -79,6 +108,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import { format } from 'date-fns';
 import api from '@/services/api'
 import { userAuthStore } from '@/store/app'
 import { CommentType } from '@/types/comonTypes'
@@ -142,6 +172,16 @@ async function send(setupId: string) {
 async function deleteSetup(setupId: string) {
     await api.delete(`/setups/${setupId}`)
     location.reload()
+}
+
+async function deleteComment(commentId: string, setupId: string) {
+    await api.delete(`/comments/${commentId}`)
+    getComments(setupId)
+}
+
+const formatedDate = (data: string) => {
+  const dataFormatada = new Date(data)
+  return format(dataFormatada, 'dd/MM/yyyy')
 }
 
 </script>
