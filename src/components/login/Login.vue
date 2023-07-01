@@ -24,25 +24,13 @@
         class="btn bg-deep-purple-accent-4 mb-6 mt-6" 
         type="submit"
         :disabled="disabled"
-        @click="overlay = !overlay"
+        :loading="overlay"
       >
         <v-icon icon="mdi-login" size="30"/>
         Entrar
       </v-btn>
 
     </div>
-
-
-    <v-overlay
-      :model-value="overlay"
-      class="align-center justify-center"
-    >
-      <v-progress-circular
-        color="primary"
-        indeterminate
-        size="48"
-      ></v-progress-circular>
-    </v-overlay>
 
     <v-snackbar
       color="red"
@@ -56,7 +44,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import router from '@/router'
 import api from '@/services/api'
 import { userAuthStore } from '@/store/app'
@@ -75,22 +63,17 @@ const userLogin = reactive<UserLogin>({
 
 async function login() {
   try {
+    overlay.value = !overlay.value
     const response = await api.post("/login", userLogin)
     auth.setAcessToken(response.data.accessToken)
     auth.setUserId(response.data.id)
     router.push("/")
   } catch (error) {
+    overlay.value = !overlay.value
     toast.value = !toast.value
     console.log(error)
   }
 }
-
-watch(overlay, (val) => {
-    val && setTimeout(() => {
-      overlay.value = false
-    }, 2000)
-  }
-)
 
 const disabled = computed(() => {
   if(userLogin.email === '' || userLogin.password === '') {

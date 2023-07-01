@@ -31,24 +31,13 @@
         class="btn bg-deep-purple-accent-4 mb-6 mt-6" 
         type="submit"
         :disabled="disabled"
-        @click="overlay = !overlay"
+        :loading="overlay"
       >
         <v-icon icon="mdi-account-plus-outline" size="30"/>
         Criar Conta
       </v-btn>
 
     </div>
-
-    <v-overlay
-      :model-value="overlay"
-      class="align-center justify-center"
-    >
-      <v-progress-circular
-        color="primary"
-        indeterminate
-        size="48"
-      ></v-progress-circular>
-    </v-overlay>
 
     <v-snackbar
       color="orange"
@@ -67,7 +56,6 @@ import router from '@/router'
 import api from '@/services/api'
 import { userAuthStore } from '@/store/app'
 import { UserResgister } from '@/components/register/index'
-import { title } from 'process'
 
 const auth = userAuthStore()
 const overlay = ref(false)
@@ -81,23 +69,17 @@ const userRegister = reactive<UserResgister>({
 
 async function register() {
   try {
+    overlay.value = !overlay.value
     const response = await api.post("/signup", userRegister)
     auth.setAcessToken(response.data.accessToken)
     auth.setUserId(response.data.id)
     router.push("/")
-    console.log(response)
   } catch (error) {
+    overlay.value = !overlay.value
     toast.value = !toast.value
     console.log(error)
   }
 }
-
-watch(overlay, (val) => {
-    val && setTimeout(() => {
-      overlay.value = false
-    }, 2000)
-  }
-)
 
 const disabled = computed(() => {
   if(userRegister.name === ''  || userRegister.email === '' || userRegister.password === '') {
