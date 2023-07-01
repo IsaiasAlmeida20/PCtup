@@ -35,7 +35,7 @@ export type PostType = {
 export type UserType = {
   nome: string,
   email?: string,
-  cargo: string,
+  cargo?: string,
   profissao: string,
   dataNascimento: string,
   estado: string,

@@ -116,6 +116,7 @@ function cancelar(){
 
 function salvar() {
     dialog.value = false
+    getUserData()
 }
 
 function sair() {
