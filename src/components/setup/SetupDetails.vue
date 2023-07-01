@@ -21,10 +21,18 @@
                             </div>
                         </div>
                         <div>
-                            <v-btn v-show="$route.fullPath.includes('/my-setups')" icon="mdi-pencil-outline" elevation="0"
-                                color="blue-grey-darken-4" />
-                            <v-btn v-show="$route.fullPath.includes('/my-setups')" icon="mdi-trash-can-outline"
-                                elevation="0" color="blue-grey-darken-4" />
+                            <v-btn 
+                                v-show="$route.fullPath.includes('/my-setups')" 
+                                icon="mdi-pencil-outline" 
+                                elevation="0"
+                                color="blue-grey-darken-4" 
+                            />
+                            <v-btn 
+                                v-show="$route.fullPath.includes('/my-setups')" 
+                                icon="mdi-trash-can-outline"
+                                elevation="0" 
+                                color="blue-grey-darken-4" @click="deleteSetup(setupId)"
+                            />
                         </div>
                     </div>
 
@@ -56,8 +64,13 @@
                     </div>
                 </v-card-text>
                 <v-card-actions class="pb-0">
-                    <v-text-field v-model="comment" @click:append-inner="send(setupId)" density="compact"
-                        append-inner-icon="mdi-send" placeholder="Escreva um comentario" />
+                    <v-text-field 
+                        v-model="comment" 
+                        @click:append-inner="send(setupId)" 
+                        density="compact"
+                        append-inner-icon="mdi-send" 
+                        placeholder="Escreva um comentario" 
+                    />
                 </v-card-actions>
             </v-card>
         </div>
@@ -69,7 +82,6 @@ import { ref, reactive } from 'vue'
 import api from '@/services/api'
 import { userAuthStore } from '@/store/app'
 import { CommentType } from '@/types/comonTypes'
-import { onMounted } from 'vue'
 
 interface props {
     setupId: string
@@ -126,6 +138,11 @@ async function send(setupId: string) {
         console.log(error)
     }
 } 
+
+async function deleteSetup(setupId: string) {
+    await api.delete(`/setups/${setupId}`)
+    location.reload()
+}
 
 </script>
 
