@@ -16,6 +16,8 @@
     <Setup 
       v-for="post in postData"
       :key="post.setup._id"
+      :setup-id="post._id"
+      :user-id="post.usuarioId"
       :imagens="post.setup.imagens"
       :created-at="formatedDate(post.setup.createdAt)"
       :nome="post.setup.usuario.nome"
@@ -23,6 +25,7 @@
       :titulo="post.setup.titulo"
       :descricao="post.setup.descricao"
       :favorited="isFavorite(post._id)"
+      :likes="1"
       @favorite="favorite(post._id)"
       :liked="isLike(post.setupId)"
       @like="like({

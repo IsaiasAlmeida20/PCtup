@@ -16,12 +16,15 @@
     <Setup 
       v-for="post in postData"
       :key="post._id"
+      :setup-id="post._id"
+      :user-id="post.usuarioId"
       :imagens="post.imagens"
       :created-at="formatedDate(post.createdAt)"
       :nome="post.usuario.nome"
       :avatar="post.usuario.imagem.url"
       :titulo="post.titulo"
       :descricao="post.descricao"
+      :likes="1"
       :favorited="isFavorite(post._id)"
       @favorite="favorite({
         setupId: post._id, 
@@ -32,6 +35,7 @@
         setupId: post._id, 
         isLike: isLike(post._id), 
       })"
+
     />
   </div>
   <div v-else class="link mt-16">
