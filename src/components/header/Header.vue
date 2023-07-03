@@ -29,7 +29,7 @@
       <router-link to="/profile">
         <v-avatar 
           class="avatar"
-          :image="userData?.imagem.url" 
+          :image="userImg ? userImg : ''" 
           size="44"
         ></v-avatar>
       </router-link>
@@ -41,11 +41,10 @@
 import { ref } from 'vue';
 import api from '@/services/api';
 import { userAuthStore } from '@/store/app'
-import { UserType } from '@/types/comonTypes'
 
 const auth = userAuthStore()
 
-const userData = ref<UserType>()
+const userImg = ref(localStorage.getItem('userImg'))
 
 async function getUserData() {
   const userId = auth.getUserId()
@@ -55,7 +54,7 @@ async function getUserData() {
         Authorization: auth.getAccessToken()
       }
     })
-    userData.value = response.data
+    localStorage.setItem('userImg', response.data.imagem.url)
     return response
   } catch (error) {
     console.log(error)

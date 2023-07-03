@@ -104,7 +104,6 @@ async function getUserData() {
       }
     })
     userData.value = response.data
-    return response
   } catch (error) {
     console.log(error)
   }

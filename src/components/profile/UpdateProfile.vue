@@ -17,62 +17,89 @@
             </v-card-item> -->
 
         <v-card-text>
-            <v-select
-                v-model="selectedValue"
-                :items="options"
-                item-title="name"
-                item-value="name"
-                label="Avatar Perfil"
-                chips
-                return-object
-                single-line
-            > 
-                <template v-slot:chip="{ props, item }">
-                    <v-chip
-                        v-bind="props"
-                        size="large"
-                        :prepend-avatar="item?.raw?.url"
-                        :title="item?.raw?.name"
-                    ></v-chip>
-                </template>
-                <template v-slot:item="{ props, item }">
-                    <v-list-item
-                        class="bg-blue-grey-darken-2 ma-0"
-                        v-bind="props"
-                        :prepend-avatar="item?.raw?.url"
-                        :title="item?.raw?.name"
-                    ></v-list-item>
-                </template>  
-            </v-select>
+            <v-form @submit.prevent="send">
+                <v-select
+                    v-model="selectedValue"
+                    :items="options"
+                    item-title="name"
+                    item-value="name"
+                    label="Avatar Perfil"
+                    chips
+                    return-object
+                    single-line
+                    required
+                    :rules="nameRules"
+                > 
+                    <template v-slot:chip="{ props, item }">
+                        <v-chip
+                            v-bind="props"
+                            size="large"
+                            :prepend-avatar="item?.raw?.url"
+                            :title="item?.raw?.name"
+                        ></v-chip>
+                    </template>
+                    <template v-slot:item="{ props, item }">
+                        <v-list-item
+                            class="bg-blue-grey-darken-2 ma-0"
+                            v-bind="props"
+                            :prepend-avatar="item?.raw?.url"
+                            :title="item?.raw?.name"
+                        ></v-list-item>
+                    </template>  
+                </v-select>
 
-            <v-text-field label="Nome" v-model="userUpdatedData.nome"/>
+                <v-text-field 
+                    label="Nome" 
+                    v-model="userUpdatedData.nome"
+                    required
+                    :rules="nameRules"
+                />
 
-            <v-text-field type="date" label="Data de nascimento" v-model="userUpdatedData.dataNascimento"/>
+                <v-text-field 
+                    type="date" 
+                    label="Data de nascimento" 
+                    v-model="userUpdatedData.dataNascimento"
+                    required
+                    :rules="nameRules"    
+                />
 
-            <v-text-field label="Profissão" v-model="userUpdatedData.profissao"/>
+                <v-text-field 
+                    label="Profissão" 
+                    v-model="userUpdatedData.profissao"
+                    required
+                    :rules="nameRules"
+                />
 
-            <v-text-field label="Cidade" v-model="userUpdatedData.cidade"/>
+                <v-text-field 
+                    label="Cidade" 
+                    v-model="userUpdatedData.cidade"
+                    required
+                    :rules="nameRules"    
+                />
 
-            <v-text-field label="Estado" v-model="userUpdatedData.estado"/>
-            
+                <v-text-field 
+                    label="Estado" 
+                    v-model="userUpdatedData.estado"
+                    required
+                    :rules="nameRules"
+                />
+                <v-card-actions>
+                <v-btn
+                    color="green-darken-1"
+                    @click="$emit('cancelar')"
+                >
+                    Cancelar
+                </v-btn>
+                <v-btn
+                    color="green-darken-1"
+                    type="submit"
+                >
+                    Salvar
+                </v-btn>
+                </v-card-actions>
+            </v-form>
         </v-card-text>
 
-        <v-card-actions>
-        <v-btn
-            color="green-darken-1"
-            variant="text"
-            @click="$emit('cancelar')"
-        >
-            Cancelar
-        </v-btn>
-        <v-btn
-            color="green-darken-1"
-            variant="text"
-            @click="send"
-        >
-            Salvar
-        </v-btn>
-        </v-card-actions>
     </v-card>
 </template>
 
@@ -98,6 +125,10 @@ const userUpdatedData = reactive<UserType>({
     url: '',
   }
 })
+
+const nameRules = [
+    (value: any) => !!value || 'Este campo é obrigatório'
+];
 
 const options = [
     {
@@ -139,22 +170,19 @@ const options = [
 
 const selectedValue = ref()
 
-function getOptionUrl(name: string) {
-    const selected = options.find(option => option.name === name)
-    return selected ? selected.url : ''
-}
-
 async function send() {
-    emit('atualizar')
     userUpdatedData.imagem.publicId  = selectedValue?.value.publicId
     userUpdatedData.imagem.url = selectedValue?.value.url
+    console.log(userUpdatedData)
     try {
-        console.log(userUpdatedData)
         await api.put(`/users/${userId}`, userUpdatedData, {
             headers: {
                 Authorization: auth.getAccessToken()
             }
         })
+        localStorage.setItem('userImg', selectedValue?.value.url)
+        emit('atualizar')
+        location.reload()
     } catch (error) {
        console.log(error) 
     }
