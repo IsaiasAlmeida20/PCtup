@@ -15,7 +15,6 @@
     "date-fns": "^2.30.0",
     "pinia": "^2.0.35",
     "roboto-fontface": "*",
-    "vercel": "^31.0.1",
     "vue": "^3.2.13",
     "vue-router": "^4.0.0",
     "vuetify": "^3.0.0",
