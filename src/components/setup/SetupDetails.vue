@@ -38,9 +38,9 @@
                                     />
                                 </template>
 
-                                <v-card color="blue-grey-darken-2">
+                                <v-card color="blue-grey-darken-2" class="text-center">
                                     <v-card-title class="text-body-1">Quer mesmo deletar este setup?</v-card-title>
-                                    <v-card-actions>
+                                    <v-card-actions class="d-flex justify-center">
                                         <v-btn variant="tonal" @click="dialogSetup = !deleteSetup"> Não </v-btn>
                                         <v-btn variant="tonal" @click="deleteSetup(setupId), dialogSetup = !dialogSetup">
                                             Sim
@@ -102,9 +102,9 @@
                                                         />
                                                     </template>
 
-                                                    <v-card color="blue-grey-darken-2">
+                                                    <v-card color="blue-grey-darken-2" class="d-flex align-center">
                                                         <v-card-title class="text-body-1">Quer mesmo deletar este comentario?</v-card-title>
-                                                        <v-card-actions>
+                                                        <v-card-actions class="text-center">
                                                             <v-btn variant="tonal" @click="dialogComment = !dialogComment"> Não </v-btn>
                                                             <v-btn variant="tonal" @click="deleteComment(item._id, setupId), dialogComment = !dialogComment">
                                                                 Sim
