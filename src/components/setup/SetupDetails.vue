@@ -20,35 +20,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <v-btn 
-                                v-show="$route.fullPath.includes('/my-setups')" 
-                                icon="mdi-pencil-outline" 
-                                elevation="0"
-                                color="blue-grey-darken-4" 
-                            />
-                            <v-dialog v-model="dialogSetup" width="300">
-                                <template v-slot:activator="{ props }">
-                                    <v-btn 
-                                        v-bind="props"
-                                        v-show="$route.fullPath.includes('/my-setups')" 
-                                        icon="mdi-trash-can-outline"
-                                        elevation="0" 
-                                        color="blue-grey-darken-4" 
-                                    />
-                                </template>
-
-                                <v-card color="blue-grey-darken-2" class="text-center">
-                                    <v-card-title class="text-body-1">Quer mesmo deletar este setup?</v-card-title>
-                                    <v-card-actions class="d-flex justify-center">
-                                        <v-btn variant="tonal" @click="dialogSetup = !deleteSetup"> Não </v-btn>
-                                        <v-btn variant="tonal" @click="deleteSetup(setupId), dialogSetup = !dialogSetup">
-                                            Sim
-                                        </v-btn>
-                                    </v-card-actions>
-                                </v-card>
-                            </v-dialog>
-                        </div>
                     </div>
 
                     <v-divider />
@@ -61,17 +32,21 @@
                     </v-card-text>
                 </v-card-item>
                 <v-card-text>
-                    <h3 class="text-subtitle-2 ms-6">Comentarios</h3>
+                    <h3 class="text-subtitle-2 ms-6 ">Comentarios</h3>
+                    <v-divider color="mb-1"/>
                     <div class="comments">
                         <div v-if="comments.length === 0">
-                            <v-chip v-if="comments.length === 0" class="mt-10">
-                                Aqui serão exibidos os comentarios do setup ;)
+                            <v-chip size="x-large" v-if="comments.length === 0 && loading === false" class="mt-10">
+                                <p class="text-caption mt-4 mb-10"> 
+                                    Ninguém comentou nesse setup :( <br>
+                                    Seja o primeiro a comentar.
+                                </p>
                             </v-chip>
-                            <div>
-                                <v-progress-linear
-                                    v-if="comments.length === 0"
-                                    class="mt-10 mb-10"
-                                    indeterminate
+                            <div class="text-center">
+                                <v-progress-circular
+                                    v-if="comments.length === 0 && loading === true"
+                                    :active="loading"
+                                    :indeterminate="loading"
                                     color="cyan"
                                 />
                             </div>
@@ -121,7 +96,7 @@
                         </div>
                     </div>
                 </v-card-text>
-                <v-card-actions class="pb-0">
+                <v-card-actions class="pb-0 pt-0">
                     <v-text-field 
                         v-model="comment" 
                         @click:append-inner="send(setupId), comment = ''" 
@@ -161,16 +136,18 @@ interface props {
 const auth = userAuthStore()
 const userId = auth.getUserId()
 
-const dialogSetup = ref<boolean>(false)
 const dialogComment = ref<boolean>(false)
+const loading = ref<boolean>(false)
 const comment = ref<string>()
 const postProps = defineProps<props>()
 const comments = reactive<CommentType[]>([])
 
 async function getComments(setupId: string) {
     try {
+        loading.value = true
         const response = await api.get<CommentType[]>(`/comments/setups/${setupId}`);
         comments.splice(0, comments.length, ...response.data);
+        loading.value = false
     } catch (error) {
         console.error(error);
     }
@@ -199,11 +176,6 @@ async function send(setupId: string) {
         console.log(error)
     }
 } 
-
-async function deleteSetup(setupId: string) {
-    await api.delete(`/setups/${setupId}`)
-    location.reload()
-}
 
 async function deleteComment(commentId: string, setupId: string) {
     await api.delete(`/comments/${commentId}`)

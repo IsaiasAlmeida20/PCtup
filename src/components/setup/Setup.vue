@@ -17,13 +17,39 @@
         </div>
         <div  class="float-end me-0">
           <v-card-actions>
-            <div>
+            <div >
               <v-btn 
+                v-show="!$route.fullPath.includes('/my-setups')" 
                 @click="favorite"
                 :loading="loadingFav"
                 :color=" favorited ? 'yellow' : 'white'"
                 :icon=" favorited ? 'mdi-star' : 'mdi-star-outline'"
               />
+              <v-btn 
+                  v-show="$route.fullPath.includes('/my-setups')" 
+                  icon="mdi-pencil-outline" 
+                  color="white" 
+              />
+              <v-dialog v-model="dialogSetup" width="300">
+                  <template v-slot:activator="{ props }">
+                      <v-btn 
+                          v-bind="props"
+                          v-show="$route.fullPath.includes('/my-setups')" 
+                          icon="mdi-trash-can-outline"
+                          color="white" 
+                      />
+                  </template>
+
+                  <v-card color="blue-grey-darken-2" class="text-center">
+                      <v-card-title class="text-body-1">Quer mesmo deletar este setup?</v-card-title>
+                      <v-card-actions class="d-flex justify-center">
+                          <v-btn variant="tonal" @click="dialogSetup = !deleteSetup"> Não </v-btn>
+                          <v-btn variant="tonal" @click="deleteSetup(setupId), dialogSetup = !dialogSetup">
+                              Sim
+                          </v-btn>
+                      </v-card-actions>
+                  </v-card>
+              </v-dialog>
             </div>
           </v-card-actions>
         </div>
@@ -37,6 +63,8 @@
     >
       <v-carousel-item
         v-for="(image, i) in imagens"
+        v-model="dialog"
+        @click="dialog=true"
         :key="i"
         :src="image.url"
         cover
@@ -54,7 +82,7 @@
         >
           <span class="text-caption text-white ms-0">{{ likes }}</span>
         </v-btn>
-        <v-btn size="small" icon="mdi-comment-processing-outline" />
+        <v-btn size="small" icon="mdi-comment-processing-outline" v-model="dialog" @click="dialog=true"/>
         <v-btn size="small" icon="mdi-share-variant" />
       </div>
       <div>   
@@ -91,8 +119,9 @@
 
 
 <script lang="ts" setup>
-import SetupDetails from './SetupDetails.vue';
 import { ref } from 'vue'
+import api from '@/services/api';
+import SetupDetails from './SetupDetails.vue';
 
 interface props{
   setupId:string
@@ -114,6 +143,7 @@ interface props{
 }
 
 const dialog = ref<boolean>(false)
+const dialogSetup = ref<boolean>(false)
 const loadingFav = ref<boolean>(false)
 const loadingLike = ref<boolean>(false)
 
@@ -139,6 +169,11 @@ function like(){
     loadingLike.value = false
   },2000)
   emit('like')
+}
+
+async function deleteSetup(setupId: string) {
+    await api.delete(`/setups/${setupId}`)
+    location.reload()
 }
 
 </script>

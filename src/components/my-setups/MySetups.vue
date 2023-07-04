@@ -1,15 +1,17 @@
 <template>
   <div v-if="auth.getAccessToken()">
     <v-chip
-      v-if="postData.length === 0"
+      class="mt-10"
+      v-if="postData.length === 0 && loading === false"
     >
-      Aqui serão exibidos todos os seus setups ;)
+      Parece que você ainda não nos mostrou seu setup :(
     </v-chip>
     <div>
       <v-progress-circular
         class="mt-10"
-        v-if="postData.length === 0"
-        indeterminate
+        v-if="postData.length === 0 && loading === true"
+        :active="loading"
+        :indeterminate="loading"
         color="primary"
       />
     </div>
@@ -46,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { format } from 'date-fns'
 import api from '@/services/api'
 import { PostType, FavoriteType, LikeType } from '@/types/comonTypes'
@@ -66,6 +68,7 @@ interface likeProps {
 const auth = userAuthStore()
 const userId = auth.getUserId()
 
+const loading = ref<boolean>(false)
 const postFavoriteData = reactive<FavoriteType[]>([])
 const userLikeData = reactive<LikeType[]>([])
 const postData = reactive<PostType[]>([])
@@ -73,10 +76,12 @@ const postData = reactive<PostType[]>([])
 
 async function getSetups() {
   try {
-    const response = await api.get<PostType[]>(`/setups/users/${userId}`);
-    postData.splice(0, postData.length, ...response.data);
+    loading.value = true
+    const response = await api.get<PostType[]>(`/setups/users/${userId}`)
+    postData.splice(0, postData.length, ...response.data)
+    loading.value = false
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
 }
 

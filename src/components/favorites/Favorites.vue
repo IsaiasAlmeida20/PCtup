@@ -1,15 +1,17 @@
 <template>
   <div v-if="auth.getAccessToken()">
     <v-chip
-      v-if="postData.length === 0"
+      class="mt-10"
+      v-if="postData.length === 0 && loading === false"
     >
-      Parece que você ainda não tem favoritos :(
+      Você ainda não marcou nenhum setup como favorito.
     </v-chip>
     <div>
       <v-progress-circular
-        class="mt-10 d-flex"
-        v-if="postData.length === 0"
-        indeterminate
+        class="mt-10"
+        v-if="postData.length === 0 && loading === true"
+        :active="loading"
+        :indeterminate="loading"
         color="primary"
       />
     </div>
@@ -42,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { format } from 'date-fns'
 import api from '@/services/api'
 import { FavoriteType,LikeType } from '@/types/comonTypes'
@@ -57,14 +59,17 @@ interface likeProps {
 const auth = userAuthStore()
 const userId = auth.getUserId()
 
+const loading = ref<boolean>(false)
 const postData = reactive<FavoriteType[]>([])
 const userLikeData = reactive<LikeType[]>([])
 
 async function getSetups() {
   try {
+    loading.value = true
     const response = await api.get<FavoriteType[]>(`/favorites/users/${userId}`);
     const data =  response.data
     postData.splice(0, postData.length, ...data);
+    loading.value = false
   } catch (error) {
     console.error(error);
   }
