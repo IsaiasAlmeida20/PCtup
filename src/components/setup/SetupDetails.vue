@@ -21,9 +21,7 @@
                             </div>
                         </div>
                     </div>
-
                     <v-divider />
-
                     <div class="text-center mt-4">
                         <v-card-title>{{ titulo }}</v-card-title>
                     </div>
@@ -32,17 +30,23 @@
                     </v-card-text>
                 </v-card-item>
                 <v-card-text>
-                    <h3 class="text-subtitle-2 ms-6 ">Comentarios</h3>
-                    <v-divider color="mb-1"/>
+                    <h3 class="ms-6 ">Comentarios</h3>
+                    <v-divider class="mb-1"/>
                     <div class="comments">
                         <div v-if="comments.length === 0">
-                            <v-chip size="x-large" v-if="comments.length === 0 && loading === false" class="mt-10">
-                                <p class="text-caption mt-4 mb-10"> 
+                            <v-card
+                                size="x-large" 
+                                rounded="lg"
+                                v-if="comments.length === 0 && loading === false" 
+                                class="pa-4 mt-12 mb-12 bg-blue-grey-darken-2"
+                            >
+                                <p class="text-body-2"> 
                                     Ninguém comentou nesse setup :( <br>
                                     Seja o primeiro a comentar.
                                 </p>
-                            </v-chip>
-                            <div class="text-center">
+                            </v-card>
+                            <v-spacer/>
+                            <div class="text-center mt-12 mb-12">
                                 <v-progress-circular
                                     v-if="comments.length === 0 && loading === true"
                                     :active="loading"
@@ -154,11 +158,6 @@ async function getComments(setupId: string) {
 }
 
 async function send(setupId: string) {
-    console.log({
-            usuarioId: userId,
-            setupId: setupId,
-            descricao: comment.value
-        })
     try {
         return await api.post('/comments', {
                 usuarioId: userId,
