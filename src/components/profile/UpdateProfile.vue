@@ -2,7 +2,8 @@
     <v-card 
         class="bg-blue-grey-darken-4"
         rounded="lg"
-        elevation="10" 
+        elevation="10"
+        @vnode-before-mount="getUserData" 
     >
         <v-card-title class="text-h5">
             Atualização de dados
@@ -52,7 +53,6 @@
                     label="Nome" 
                     v-model="userUpdatedData.nome"
                     required
-                    :rules="nameRules"
                 />
 
                 <v-text-field 
@@ -60,28 +60,24 @@
                     label="Data de nascimento" 
                     v-model="userUpdatedData.dataNascimento"
                     required
-                    :rules="nameRules"    
                 />
 
                 <v-text-field 
                     label="Profissão" 
                     v-model="userUpdatedData.profissao"
                     required
-                    :rules="nameRules"
                 />
 
                 <v-text-field 
                     label="Cidade" 
                     v-model="userUpdatedData.cidade"
                     required
-                    :rules="nameRules"    
                 />
 
                 <v-text-field 
                     label="Estado" 
                     v-model="userUpdatedData.estado"
                     required
-                    :rules="nameRules"
                 />
                 <v-card-actions>
                 <v-btn
@@ -105,6 +101,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import moment from 'moment'
 import { userAuthStore } from '@/store/app'
 import { UserType } from '@/types/comonTypes'
 import api from '@/services/api'
@@ -115,7 +112,7 @@ const userId = auth.getUserId()
 const emit = defineEmits(['atualizar'])
 
 const userUpdatedData = reactive<UserType>({
-  nome: '',
+  nome: "",
   dataNascimento: '',
   profissao: '',
   estado: '',
@@ -187,6 +184,29 @@ async function send() {
        console.log(error) 
     }
 }
+
+async function getUserData() {
+  const userId = auth.getUserId()
+  try {
+    const response = await api.get(`/users/${userId}`, {
+      headers: {
+        Authorization: auth.getAccessToken()
+      }
+    })
+
+    const {data: user} = response
+
+    Object.assign(userUpdatedData, user)
+    userUpdatedData.dataNascimento = moment(user.dataNascimento).add(1, 'd').format("yyyy-MM-DD")
+    const imagem = options.find(image => {
+        return image.publicId === user.imagem.publicId
+    })
+    selectedValue.value = imagem
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 
 </script>
 

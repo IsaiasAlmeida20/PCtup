@@ -84,10 +84,10 @@
 import { ref, onMounted } from 'vue'
 import router from '@/router'
 import api from '@/services/api'
-import { format } from 'date-fns'
 import { userAuthStore } from '@/store/app'
 import { UserType } from '@/types/comonTypes'
 import UpdateProfile from './UpdateProfile.vue'
+import moment from 'moment'
 
 const auth = userAuthStore()
 
@@ -125,8 +125,8 @@ function sair() {
 }
 
 const formatedDate = (data: string) => {
-  const dataFormatada = new Date(data);
-  return format(dataFormatada, 'dd/MM/yyyy');
+    const dateFormated = moment(data).add(1, 'd').format("DD/MM/yyyy")
+    return dateFormated
 }
 
 onMounted(getUserData)
