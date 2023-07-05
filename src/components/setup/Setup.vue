@@ -168,6 +168,12 @@ function favorite(){
 }
 
 function like(){
+  console.log(postProps.liked)
+  if(postProps.liked === true){
+    likes.value -= 1
+  } else if(postProps.liked === false){
+    likes.value += 1
+  }
   loadingLike.value = true
   setTimeout(() => {
     loadingLike.value = false
