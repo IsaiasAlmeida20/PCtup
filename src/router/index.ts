@@ -9,6 +9,7 @@ import NewSetup from '@/components/new-setup/NewSetup.vue'
 import SetupDescription from '@/components/new-setup/SetupDescription.vue'
 import Favorites from '@/components/favorites/Favorites.vue'
 import MySetups from '@/components/my-setups/MySetups.vue'
+import EditSetup from '@/components/setup/EditSetup.vue'
 import Profile from '@/components/profile/Profile.vue'
 import NotFound from '@/views/NotFound.vue'
 
@@ -42,6 +43,11 @@ const routes = [
         path: '/my-setups',
         name: 'my-setups',
         component: MySetups
+      },
+      {
+        path: '/update-setup',
+        name: 'update-setup',
+        component: EditSetup
       },
     ]
   },

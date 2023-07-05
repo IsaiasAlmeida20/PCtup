@@ -26,7 +26,6 @@
       :avatar="post.usuario.imagem.url"
       :titulo="post.titulo"
       :descricao="post.descricao"
-      :likes="1"
       :favorited="isFavorite(post._id)"
       @favorite="favorite({
         setupId: post._id, 

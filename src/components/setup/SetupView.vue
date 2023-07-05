@@ -18,7 +18,6 @@
       :avatar="post.usuario.imagem.url"
       :titulo="post.titulo"
       :descricao="post.descricao"
-      :likes="1"
       :favorited="isFavorite(post._id)"
       @favorite="favorite({
         setupId: post._id, 
@@ -176,8 +175,7 @@ function idLike(postId: string) {
 
 async function getLikesConts(setupId: string) {
   const response = await api.get(`/likes/count?setupId=${setupId}`)
-  let like = 0
-  like = Number(response.data.count) ? Number(response.data.count) : 0
+  const like = Number(response.data.count)
   return like
 }
 

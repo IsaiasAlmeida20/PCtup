@@ -3,6 +3,7 @@
     class="bg-blue-grey-darken-4 mb-4"
     rounded="lg"
     :elevation="10"
+    @vnode-mounted="getLikesConts(setupId)"
   >       
     <v-card-item>
       <div class="d-flex align-center justify-space-between">
@@ -25,11 +26,14 @@
                 :color=" favorited ? 'yellow' : 'white'"
                 :icon=" favorited ? 'mdi-star' : 'mdi-star-outline'"
               />
-              <v-btn 
-                  v-show="$route.fullPath.includes('/my-setups')" 
-                  icon="mdi-pencil-outline" 
-                  color="white" 
-              />
+              <router-link to="/update-setup">
+                <v-btn 
+                    v-show="$route.fullPath.includes('/my-setups')" 
+                    icon="mdi-pencil-outline" 
+                    color="white" 
+                    :value="setupId"
+                />
+              </router-link>
               <v-dialog v-model="dialogSetup" width="300">
                   <template v-slot:activator="{ props }">
                       <v-btn 
@@ -133,7 +137,6 @@ interface props{
   avatar: string
   favorited: boolean
   liked: boolean
-  likes: any
   imagens: [
     {
       publicId: string
@@ -146,6 +149,7 @@ const dialog = ref<boolean>(false)
 const dialogSetup = ref<boolean>(false)
 const loadingFav = ref<boolean>(false)
 const loadingLike = ref<boolean>(false)
+const likes = ref<number>(0)
 
 const emit = defineEmits(['favorite', 'like'])
 
@@ -175,6 +179,12 @@ async function deleteSetup(setupId: string) {
     await api.delete(`/setups/${setupId}`)
     location.reload()
 }
+
+async function getLikesConts(setupId: string) {
+  const response = await api.get(`/likes/count?setupId=${setupId}`)
+  likes.value = Number(response.data.count)
+}
+
 
 </script>
 

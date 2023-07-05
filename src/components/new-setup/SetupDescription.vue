@@ -57,7 +57,7 @@ import { ref, reactive } from 'vue'
 import router from '@/router'
 import api from '@/services/api'
 import { userAuthStore } from '@/store/app'
-import { SetupDescription } from './index'
+import { SetupDescription } from '@/types/comonTypes'
 
 const auth = userAuthStore()
 const fileInput = ref<any>();

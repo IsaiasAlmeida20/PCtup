@@ -27,7 +27,6 @@
       :titulo="post.setup.titulo"
       :descricao="post.setup.descricao"
       :favorited="isFavorite(post._id)"
-      :likes="1"
       @favorite="favorite(post._id)"
       :liked="isLike(post.setupId)"
       @like="like({

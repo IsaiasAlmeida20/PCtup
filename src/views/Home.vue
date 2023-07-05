@@ -16,10 +16,6 @@
                   <v-icon icon="mdi-home-outline"  size="large" title="Novo Setup"/>
                   <span class="hidden-sm-and-down ms-1"> Início</span>
               </v-tab>
-              <!-- <v-tab tag="router-link" to="/new-setup">
-                  <v-icon icon="mdi-image-plus-outline"  size="large" title="Novo Setup"/>
-                  <span class="hidden-sm-and-down ms-1"> Novo Setup</span>
-              </v-tab> -->
               <v-tab tag="router-link" to="/favorites">
                   <v-icon icon="mdi-star-outline"  size="large" title="Favoritos"/>
                   <span class="hidden-sm-and-down ms-1"> Favoritos</span>
