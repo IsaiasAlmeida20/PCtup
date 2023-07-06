@@ -4,12 +4,12 @@
             elevation="10" 
             class="bg-blue-grey-darken-4" 
             rounded="lg"
-            @vnode-mounted="getSetups()"
+            @vnode-mounted="getSetup(store.setupId!)"
         >
             <div>
                 
                 <h1 class="text-h5 ma-4">Editar Setup</h1>
-                <v-form @submit.prevent="send" class="ma-4">
+                <v-form @submit.prevent="send(store.setupId!)" class="ma-4">
                     <v-text-field 
                         label="Titulo" 
                         v-model="setupDescription.titulo" 
@@ -25,19 +25,67 @@
                         @update:model-value="previewUrl = ''" 
                         type="file" 
                         ref="fileInput"
-                        label="Selecione uma imagem" 
+                        label="Adicione uma nova imagem" 
                         prepend-icon="mdi-camera" 
                         @change="previewImage" 
                     />
-                    <v-img class="w-75 mb-10 rounded-lg" :src="previewUrl" />
-                    <v-btn 
-                        class="bg-deep-purple-accent-4 
-                        float-end ma-4" 
-                        :loading="loading" 
-                        type="submit"
-                    >
-                        Salvar
-                    </v-btn>
+                    <v-img class="w-75 ma-4 rounded-lg" :src="previewUrl" />
+                    <h3 class="mb-4" v-if="store.setupId">Fotos do setup</h3>
+                    <v-row>
+                        <v-col
+                        v-for="(img, i) in postData?.imagens"
+                        :key="i"
+                        class="d-flex child-flex"
+                        cols="4"
+                        >
+                            <v-img
+                                :src="img.url"
+                                aspect-ratio="1"
+                                cover
+                                class="bg-grey-lighten-2 rounded-lg "
+                            >
+                                <v-dialog v-model="dialog" width="400">
+                                    <template v-slot:activator="{ props }">
+                                        <v-btn 
+                                            v-bind="props"
+                                            class="btn" 
+                                            elevation="0" 
+                                            size="small" 
+                                            icon="mdi-trash-can" 
+                                            color="transparent"
+                                        />
+                                    </template>
+
+                                    <v-card color="blue-grey-darken-2" class="d-flex align-center">
+                                        <v-card-title class="text-body-1">Quer mesmo deletar essa imagem?</v-card-title>
+                                        <v-card-actions class="text-center">
+                                            <v-btn variant="tonal" @click="dialog = !dialog"> Não </v-btn>
+                                            <v-btn variant="tonal" @click="dialog = !dialog">
+                                                Sim
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-dialog>
+                                
+                            </v-img>
+                        </v-col>
+                    </v-row>
+                    <div>
+                        <v-btn 
+                            class="bg-deep-purple-accent-4 float-end ma-4" 
+                            :loading="loading" 
+                            type="submit"
+                        >
+                            Salvar
+                        </v-btn>
+                        <router-link to="/my-setups">
+                            <v-btn 
+                                class="bg-orange-lighten-3 float-end ma-4" 
+                            >
+                                Cancelar
+                            </v-btn>
+                        </router-link>
+                    </div>
                 </v-form>
             </div>
         </v-card>
@@ -46,16 +94,19 @@
   
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import router from '@/router'
 import api from '@/services/api'
+import router from '@/router'
+import { setupStore } from '@/store/setupStore'
 import { userAuthStore } from '@/store/app'
-import { PostType, SetupDescription } from '@/types/comonTypes'
+import { SetupEdit, SetupDescription } from '@/types/comonTypes'
 
+const store = setupStore()
 const auth = userAuthStore()
 const fileInput = ref<any>();
 const previewUrl = ref<any>();
 const loading = ref<boolean>(false)
-const postData = reactive<PostType[]>([])
+const dialog = ref<boolean>(false)
+const postData = ref<SetupEdit>()
 const userId = auth.getUserId()
 
 const setupDescription = reactive<SetupDescription>({
@@ -63,11 +114,14 @@ const setupDescription = reactive<SetupDescription>({
     descricao: ''
 })
 
-async function getSetups() {
+async function getSetup(setupId: string) {
   try {
-    const response = await api.get<PostType[]>(`/setups/users/${userId}`)
-    console.log(response.data)
-    postData.splice(0, postData.length, ...response.data)
+    const response = await api.get<SetupEdit>(`/setups/${setupId}`)
+    postData.value = response.data
+    const {data: setup} = response
+
+    Object.assign(setupDescription, setup)
+    console.log(postData.value)
   } catch (error) {
     console.error(error)
   }
@@ -84,10 +138,23 @@ function previewImage(): void {
     }
 }
 
-async function send() {
+async function send(setupId: string) {
     loading.value = true
-    console.log(setupDescription)
-    loading.value = false
+    await api.put(`/setups/${setupId}`, {
+        titulo: setupDescription.titulo,
+        descricao: setupDescription.descricao,
+    })
+    const file = fileInput.value.files[0];
+    if(file){
+        const formData = new FormData();
+        formData.append('image', file);
+        api.post(`/setups/${setupId}/images`, formData, {
+            headers: {
+            'Content-Type': 'multipart/form-data'
+            }
+        })
+    }
+    router.push("/my-setups")
 }
 
 </script>
@@ -96,5 +163,13 @@ async function send() {
 .link a {
     color: #FFFFFF;
 }
+
+.btn {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+}
+
 </style>
   

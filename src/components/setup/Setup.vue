@@ -31,7 +31,7 @@
                     v-show="$route.fullPath.includes('/my-setups')" 
                     icon="mdi-pencil-outline" 
                     color="white" 
-                    :value="setupId"
+                    @click="store.setSetupId(setupId)"
                 />
               </router-link>
               <v-dialog v-model="dialogSetup" width="300">
@@ -124,8 +124,11 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import api from '@/services/api';
-import SetupDetails from './SetupDetails.vue';
+import api from '@/services/api'
+import { userAuthStore } from '@/store/app'
+import { setupStore} from '@/store/setupStore'
+import SetupDetails from './SetupDetails.vue'
+
 
 interface props{
   setupId:string
@@ -145,6 +148,8 @@ interface props{
   ]
 }
 
+const store = setupStore()
+const auth = userAuthStore()
 const dialog = ref<boolean>(false)
 const dialogSetup = ref<boolean>(false)
 const loadingFav = ref<boolean>(false)
@@ -168,7 +173,6 @@ function favorite(){
 }
 
 function like(){
-  console.log(postProps.liked)
   if(postProps.liked === true){
     likes.value -= 1
   } else if(postProps.liked === false){
@@ -182,13 +186,25 @@ function like(){
 }
 
 async function deleteSetup(setupId: string) {
-    await api.delete(`/setups/${setupId}`)
+    await api.delete(`/setups/${setupId}`,
+      {
+        headers: {
+          Authorization: auth.getAccessToken()
+        }
+      }
+    )
     location.reload()
 }
 
 async function getLikesConts(setupId: string) {
-  const response = await api.get(`/likes/count?setupId=${setupId}`)
-  likes.value = Number(response.data.count)
+  const response = await api.get(`/likes/count?setupId=${setupId}`,
+    {
+      headers: {
+        Authorization: auth.getAccessToken()
+      }
+    }
+  )
+  likes.value = response.data.count
 }
 
 

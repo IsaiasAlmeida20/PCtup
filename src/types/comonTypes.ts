@@ -124,3 +124,20 @@ export type SetupDescription = {
   titulo: string
   descricao: string
 }
+
+export type SetupEdit = {
+  _id: string,
+  usuarioId: string,
+  titulo: string,
+  descricao: string,
+  estaAtivo: true,
+  estaPublico: true,
+  imagens: [
+    {
+      publicId: string,
+      url: string
+    }
+  ],
+  createdAt: string,
+  updatedAt: string
+}

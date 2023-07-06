@@ -8,15 +8,6 @@
         <v-card-title class="text-h5">
             Atualização de dados
         </v-card-title>
-
-        <!--  <v-card-item class="text-center">
-                <v-avatar
-                    class="avatar"
-                    size="80" 
-                    :image="getOptionUrl(selectedValue)"
-                />
-            </v-card-item> -->
-
         <v-card-text>
             <v-form @submit.prevent="send">
                 <v-select
@@ -170,7 +161,6 @@ const selectedValue = ref()
 async function send() {
     userUpdatedData.imagem.publicId  = selectedValue?.value.publicId
     userUpdatedData.imagem.url = selectedValue?.value.url
-    console.log(userUpdatedData)
     try {
         await api.put(`/users/${userId}`, userUpdatedData, {
             headers: {
