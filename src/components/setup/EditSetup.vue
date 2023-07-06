@@ -159,7 +159,7 @@ async function send(setupId: string) {
 
 </script>
   
-<style>
+<style scoped lang="css">
 .link a {
     color: #FFFFFF;
 }
