@@ -18,9 +18,22 @@
         </div>
         <div  class="float-end me-0">
           <v-card-actions>
-            <div >
+            <v-radio
+              v-show="$route.fullPath.includes('/my-setups')" 
+              color="success"
+              size="small"
+              :value="isPublic"
+              @click="isPublic = !isPublic"
+            >
+              <v-tooltip
+                activator="parent"
+                location="start"
+              >{{ isPublic ? "Remover publico" : "Tornar Publico"}}</v-tooltip>
+            </v-radio>
+            <div>
               <v-btn 
                 v-show="!$route.fullPath.includes('/my-setups')" 
+                size="small"
                 @click="favorite"
                 :loading="loadingFav"
                 :color=" favorited ? 'yellow' : 'white'"
@@ -29,6 +42,7 @@
               <router-link to="/update-setup">
                 <v-btn 
                     v-show="$route.fullPath.includes('/my-setups')" 
+                    size="small"
                     icon="mdi-pencil-outline" 
                     color="white" 
                     @click="store.setSetupId(setupId)"
@@ -39,6 +53,7 @@
                       <v-btn 
                           v-bind="props"
                           v-show="$route.fullPath.includes('/my-setups')" 
+                          size="small"
                           icon="mdi-trash-can-outline"
                           color="white" 
                       />
@@ -78,14 +93,17 @@
 
     <v-card-actions class="d-flex justify-space-between">
       <div>
-        <v-btn 
-          @click="like"
-          :loading="loadingLike"
-          :color=" liked ? 'red' : 'white' "
-          :prepend-icon=" liked ? 'mdi-heart' : 'mdi-heart-outline'"
-        >
-          <span class="text-caption text-white ms-0">{{ likes }}</span>
-        </v-btn>
+          <v-btn 
+            @click="like"
+            :loading="loadingLike"
+          >
+            <v-badge inline :content="likes" color="transparent">
+              <v-icon
+                :color=" liked ? 'red' : 'white' "
+                :icon=" liked ? 'mdi-heart' : 'mdi-heart-outline'"
+              />
+            </v-badge>
+          </v-btn>
         <v-btn size="small" icon="mdi-comment-processing-outline" v-model="dialog" @click="dialog=true"/>
         <v-btn size="small" icon="mdi-share-variant" />
       </div>
@@ -154,6 +172,7 @@ const dialog = ref<boolean>(false)
 const dialogSetup = ref<boolean>(false)
 const loadingFav = ref<boolean>(false)
 const loadingLike = ref<boolean>(false)
+const isPublic = ref<boolean>(false)
 const likes = ref<number>(0)
 
 const emit = defineEmits(['favorite', 'like'])
@@ -215,4 +234,5 @@ async function getLikesConts(setupId: string) {
   border: solid 2px #37474F;
   filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3));
 }
+
 </style>

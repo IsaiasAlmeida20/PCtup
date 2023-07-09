@@ -29,12 +29,35 @@
                         prepend-icon="mdi-camera" 
                         @change="previewImage" 
                     />
-                    <v-img class="w-75 ma-4 rounded-lg" :src="previewUrl" />
-                    <h3 class="mb-4" v-if="store.setupId">Fotos do setup</h3>
                     <v-row>
                         <v-col
-                        v-for="(img, i) in postData?.imagens"
-                        :key="i"
+                          v-for="(img, i) in imagens"
+                          :key="i"
+                          class="d-flex child-flex"
+                          cols="4"
+                          >
+                              <v-img
+                                  :src="img"
+                                  aspect-ratio="1"
+                                  cover
+                                  class="bg-grey-lighten-2 rounded-lg "
+                              >
+                              <v-btn 
+                                  class="btn" 
+                                  elevation="0" 
+                                  size="small" 
+                                  icon="mdi-trash-can" 
+                                  color="transparent"
+                                  @click="removeItem(i)"
+                              />
+                              </v-img>
+                        </v-col>
+                    </v-row>
+                    <h3 class="ma-4" v-if="store.setupId">Fotos do setup</h3>
+                    <v-row>
+                        <v-col
+                        v-for="img in postData?.imagens"
+                        :key="img.publicId"
                         class="d-flex child-flex"
                         cols="4"
                         >
@@ -57,10 +80,10 @@
                                     </template>
 
                                     <v-card color="blue-grey-darken-2" class="d-flex align-center">
-                                        <v-card-title class="text-body-1">Quer mesmo deletar essa imagem?</v-card-title>
+                                        <v-card-title class="text-body-1">Quer mesmo deletar essa imagem? {{img.publicId}}</v-card-title>
                                         <v-card-actions class="text-center">
                                             <v-btn variant="tonal" @click="dialog = !dialog"> Não </v-btn>
-                                            <v-btn variant="tonal" @click="dialog = !dialog">
+                                            <v-btn variant="tonal" @click="deletImg(img.publicId),dialog = !dialog">
                                                 Sim
                                             </v-btn>
                                         </v-card-actions>
@@ -89,6 +112,23 @@
                 </v-form>
             </div>
         </v-card>
+        <v-snackbar
+            v-model="snackbar"
+            :timeout="6000"
+            color="blue-grey"
+        >
+            Seu setup foi atualizado com sucesso!
+            Aguarde até que um dos administradores aprovem seu post.
+            Enquanto isso podera vê-lo em meus setups.
+            <template v-slot:actions>
+            <v-btn
+                color="blue"
+                variant="text"
+                icon="mdi-close"
+                @click="snackbar = false"
+            />
+            </template>
+        </v-snackbar>
     </div>
 </template>
   
@@ -103,10 +143,13 @@ import { SetupEdit, SetupDescription } from '@/types/comonTypes'
 const store = setupStore()
 const auth = userAuthStore()
 const fileInput = ref<any>();
+const files = ref<any[]>([]);
 const previewUrl = ref<any>();
 const loading = ref<boolean>(false)
 const dialog = ref<boolean>(false)
+const snackbar = ref<boolean>(false)
 const postData = ref<SetupEdit>()
+const imagens = ref<any[]>([])
 const userId = auth.getUserId()
 
 const setupDescription = reactive<SetupDescription>({
@@ -127,35 +170,54 @@ async function getSetup(setupId: string) {
   }
 }
 
-function previewImage(): void {
-    const file = fileInput.value.files[0];
-    const reader = new FileReader()
-    reader.onload = () => {
-        previewUrl.value = reader.result;
-    }
-    if (file) {
-        reader.readAsDataURL(file)
-    }
+function removeItem(index: any){
+  files.value.splice(index, 1);
+  imagens.value.splice(index, 1);
 }
 
+function previewImage(): void{
+  const file = fileInput.value.files[0];
+  files.value.push(file)
+  const reader = new FileReader()
+  reader.onload = () => {
+    previewUrl.value = reader.result;
+    imagens.value.push(previewUrl.value)
+  }
+  if (file) {
+    reader.readAsDataURL(file)
+  }
+}
 async function send(setupId: string) {
     loading.value = true
     await api.put(`/setups/${setupId}`, {
         titulo: setupDescription.titulo,
         descricao: setupDescription.descricao,
     })
-    const file = fileInput.value.files[0];
-    if(file){
-        const formData = new FormData();
-        formData.append('image', file);
-        api.post(`/setups/${setupId}/images`, formData, {
-            headers: {
-            'Content-Type': 'multipart/form-data'
-            }
-        })
+    snackbar.value = true
+    for (const file of files.value) {
+      const formData = new FormData();
+      formData.set('image', file);
+      api.post(`/setups/${setupId}/images`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
     }
-    router.push("/my-setups")
+    loading.value = false
+    setTimeout(() => {
+        router.push("/my-setups")
+    }, 6000)
 }
+
+async function deletImg(publicId: string) {
+    try {
+        await api.delete(`/setups/${store.setupId}/images?publicId=${publicId}`)
+        getSetup(store.setupId!)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
 </script>
   
