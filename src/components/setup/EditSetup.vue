@@ -205,6 +205,7 @@ async function send(setupId: string) {
     }
     loading.value = false
     setTimeout(() => {
+        location.reload
         router.push("/my-setups")
     }, 6000)
 }

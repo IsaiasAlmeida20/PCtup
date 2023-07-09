@@ -18,19 +18,14 @@
         </div>
         <div  class="float-end me-0">
           <v-card-actions>
-            <v-radio
-              v-show="$route.fullPath.includes('/my-setups')" 
-              color="success"
-              size="small"
-              :value="isPublic"
-              @click="isPublic = !isPublic"
-            >
-              <v-tooltip
-                activator="parent"
-                location="start"
-              >{{ isPublic ? "Remover publico" : "Tornar Publico"}}</v-tooltip>
-            </v-radio>
             <div>
+                <v-btn
+                  v-show="$route.fullPath.includes('/my-setups')" 
+                  :icon="isPublic ? 'mdi-close' : 'mdi-check'"
+                  color="whire"
+                  :title="isPublic ? 'remover publico' : 'tornar publico'"
+                />
+                  
               <v-btn 
                 v-show="!$route.fullPath.includes('/my-setups')" 
                 size="small"
@@ -158,6 +153,7 @@ interface props{
   avatar: string
   favorited: boolean
   liked: boolean
+  isPublic?: boolean
   imagens: [
     {
       publicId: string
@@ -172,7 +168,6 @@ const dialog = ref<boolean>(false)
 const dialogSetup = ref<boolean>(false)
 const loadingFav = ref<boolean>(false)
 const loadingLike = ref<boolean>(false)
-const isPublic = ref<boolean>(false)
 const likes = ref<number>(0)
 
 const emit = defineEmits(['favorite', 'like'])
