@@ -10,6 +10,12 @@
                 
                 <h1 class="text-h5 ma-4">Editar Setup</h1>
                 <v-form @submit.prevent="send(store.setupId!)" class="ma-4">
+                    <v-switch 
+                        color="blue"
+                        :label="setupDescription.estaPublico ? 'Remover publico' : 'Tornar publico'">
+                        v-model="setupDescription.estaPublico"
+                        @click="setupDescription.estaPublico = !setupDescription.estaPublico"
+                    </v-switch>
                     <v-text-field 
                         label="Titulo" 
                         v-model="setupDescription.titulo" 
@@ -137,11 +143,9 @@ import { ref, reactive } from 'vue'
 import api from '@/services/api'
 import router from '@/router'
 import { setupStore } from '@/store/setupStore'
-import { userAuthStore } from '@/store/app'
 import { SetupEdit, SetupDescription } from '@/types/comonTypes'
 
 const store = setupStore()
-const auth = userAuthStore()
 const fileInput = ref<any>();
 const files = ref<any[]>([]);
 const previewUrl = ref<any>();
@@ -150,11 +154,11 @@ const dialog = ref<boolean>(false)
 const snackbar = ref<boolean>(false)
 const postData = ref<SetupEdit>()
 const imagens = ref<any[]>([])
-const userId = auth.getUserId()
 
 const setupDescription = reactive<SetupDescription>({
     titulo: '',
-    descricao: ''
+    descricao: '',
+    estaPublico: true
 })
 
 async function getSetup(setupId: string) {
@@ -217,6 +221,10 @@ async function deletImg(publicId: string) {
     } catch (error) {
         console.log(error)
     }
+}
+
+function pro() {
+    console.log(setupDescription.estaPublico)
 }
 
 
