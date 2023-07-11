@@ -231,8 +231,7 @@ async function getLikesConts(setupId: string) {
 
 function copyLink() {
   let path = route.fullPath
-  navigator.clipboard.writeText(`http://localhost:3000/${path}`)
-  console.log(`http://localhost:3000/${path}`)
+  navigator.clipboard.writeText(`http://localhost:3000${path}`)
 }
 
 </script>

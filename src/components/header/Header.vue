@@ -33,7 +33,7 @@
       <router-link to="/profile">
           <v-avatar 
             class="avatar"
-            :image="userImg ? userImg : ''" 
+            :image="userData?.imagem.url ? userData?.imagem.url : ''" 
             size="44"
           ></v-avatar>
       </router-link>
@@ -51,7 +51,6 @@ import router from '@/router';
 const auth = userAuthStore()
 
 let userData = ref<UserType>()
-const userImg = ref(localStorage.getItem('userImg'))
 
 async function getUserData() {
   const userId = auth.getUserId()

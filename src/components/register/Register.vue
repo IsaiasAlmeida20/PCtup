@@ -22,8 +22,10 @@
 
       <label>Senha</label>
       <v-text-field
-        type="password" 
-        placeholder="Digite sua senha" 
+        :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+        :type="visible ? 'text' : 'password'" 
+        placeholder="Digite sua senha"
+        @click:append-inner="visible = !visible" 
         v-model="userRegister.password"
       />
 
@@ -58,6 +60,7 @@ import { userAuthStore } from '@/store/app'
 import { UserResgister } from '@/components/register/index'
 
 const auth = userAuthStore()
+const visible = ref(false)
 const overlay = ref(false)
 const toast = ref(false)
 
