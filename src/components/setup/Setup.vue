@@ -19,6 +19,15 @@
         <div  class="float-end me-0">
           <v-card-actions>
             <div> 
+              <v-icon
+                class="me-2"
+                v-show="$route.fullPath.includes('/my-setups')" 
+                size="medium"
+                icon="mdi-circle"
+                :color="isPublic ? 'green' : 'white'"
+                :title=" isPublic ? 'Está publico' : 'Não está publico'"
+              >
+              </v-icon>
               <v-btn 
                 v-show="!$route.fullPath.includes('/my-setups')" 
                 size="small"

@@ -33,9 +33,15 @@
             <v-btn 
               v-show="$route.fullPath.length==1"
               class="btn"
-              icon="mdi-image-plus-outline" 
               size="large"
-            /> 
+              rounded="pill"
+            >
+              <v-icon icon="mdi-image-plus-outline"></v-icon>
+              <v-tooltip
+                activator="parent"
+                location="start"
+              >Postar Setup</v-tooltip>
+            </v-btn> 
           </router-link>
         </div>
       </v-container>

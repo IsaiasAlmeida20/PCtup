@@ -10,12 +10,14 @@
                 
                 <h1 class="text-h5 ma-4">Editar Setup</h1>
                 <v-form @submit.prevent="send(store.setupId!)" class="ma-4">
-                    <v-switch 
-                        color="blue"
-                        :label="setupDescription.estaPublico ? 'Remover publico' : 'Tornar publico'">
-                        v-model="setupDescription.estaPublico"
-                        @click="setupDescription.estaPublico = !setupDescription.estaPublico"
-                    </v-switch>
+                    <v-btn class="float-start" @click="setupDescription.estaPublico = !setupDescription.estaPublico">
+                        <v-icon
+                            :icon="setupDescription.estaPublico ? 'mdi-publish-off' : 'mdi-publish'"
+                        />
+                        {{ setupDescription.estaPublico ? 'Remover publico' : 'Tornar publico' }}
+                    </v-btn>
+                    <br>
+                    <br>
                     <v-text-field 
                         label="Titulo" 
                         v-model="setupDescription.titulo" 
@@ -54,7 +56,7 @@
                                   size="small" 
                                   icon="mdi-trash-can" 
                                   color="transparent"
-                                  @click="removeItem(i)"
+                                  @click="removeItem(img.publicId)"
                               />
                               </v-img>
                         </v-col>
@@ -86,7 +88,7 @@
                                     </template>
 
                                     <v-card color="blue-grey-darken-2" class="d-flex align-center">
-                                        <v-card-title class="text-body-1">Quer mesmo deletar essa imagem? {{img.publicId}}</v-card-title>
+                                        <v-card-title class="text-body-1">Quer mesmo deletar essa imagem?</v-card-title>
                                         <v-card-actions class="text-center">
                                             <v-btn variant="tonal" @click="dialog = !dialog"> Não </v-btn>
                                             <v-btn variant="tonal" @click="deletImg(img.publicId),dialog = !dialog">
@@ -193,10 +195,7 @@ function previewImage(): void{
 }
 async function send(setupId: string) {
     loading.value = true
-    await api.put(`/setups/${setupId}`, {
-        titulo: setupDescription.titulo,
-        descricao: setupDescription.descricao,
-    })
+    await api.put(`/setups/${setupId}`, setupDescription)
     snackbar.value = true
     for (const file of files.value) {
       const formData = new FormData();
@@ -222,11 +221,6 @@ async function deletImg(publicId: string) {
         console.log(error)
     }
 }
-
-function pro() {
-    console.log(setupDescription.estaPublico)
-}
-
 
 </script>
   
