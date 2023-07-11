@@ -102,7 +102,7 @@
             </v-badge>
           </v-btn>
         <v-btn size="small" icon="mdi-comment-processing-outline" v-model="dialog" @click="dialog=true"/>
-        <v-btn size="small" icon="mdi-share-variant" />
+        <v-btn size="small" icon="mdi-share-variant" @click="copyLink(), snackbar = true"/>
       </div>
       <div>   
           <v-dialog
@@ -133,11 +133,15 @@
           </v-dialog>
       </div>
     </v-card-actions>
+    <v-snackbar v-model="snackbar">
+      Link copiado para area de transferencia.
+    </v-snackbar>
   </v-card>
 </template>
 
 
 <script lang="ts" setup>
+import { useRoute  } from 'vue-router'
 import { ref } from 'vue'
 import api from '@/services/api'
 import { userAuthStore } from '@/store/app'
@@ -164,9 +168,11 @@ interface props{
   ]
 }
 
+const route = useRoute()
 const store = setupStore()
 const auth = userAuthStore()
 const dialog = ref<boolean>(false)
+const snackbar = ref<boolean>(false)
 const dialogSetup = ref<boolean>(false)
 const loadingFav = ref<boolean>(false)
 const loadingLike = ref<boolean>(false)
@@ -223,6 +229,11 @@ async function getLikesConts(setupId: string) {
   likes.value = response.data.count
 }
 
+function copyLink() {
+  let path = route.fullPath
+  navigator.clipboard.writeText(`http://localhost:3000/${path}`)
+  console.log(`http://localhost:3000/${path}`)
+}
 
 </script>
 
