@@ -1,16 +1,20 @@
 module.exports = {
   root: true,
   env: {
-    node: true,
+    node: true
   },
-  extends: [
+  'extends': [
     'plugin:vue/vue3-essential',
     'eslint:recommended',
-    '@vue/eslint-config-typescript',
+    '@vue/typescript/recommended'
   ],
-  rules: {
-    'vue/multi-word-component-names': 'off',
-    '@typescript-eslint/no-unused-vars': 'off',
-    'no-unused-vars': 'off',
+  parserOptions: {
+    ecmaVersion: 2020
   },
+  rules: {
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'vue/no-deprecated-slot-attribute': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+  }
 }

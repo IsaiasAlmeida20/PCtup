@@ -1,95 +1,39 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '@/views/Home.vue'
-import LoginView from '@/views/LoginView.vue'
-import ProfileView from '@/views/ProfileView.vue'
-import SetupView from '@/components/setup/SetupView.vue'
-import Login from '@/components/login/Login.vue'
-import Register from '@/components/register/Register.vue'
-import NewSetup from '@/components/new-setup/NewSetup.vue'
-import SetupDescription from '@/components/new-setup/SetupDescription.vue'
-import Favorites from '@/components/favorites/Favorites.vue'
-import MySetups from '@/components/my-setups/MySetups.vue'
-import EditSetup from '@/components/setup/EditSetup.vue'
-import Profile from '@/components/profile/Profile.vue'
-import NotFound from '@/views/NotFound.vue'
+import { createRouter, createWebHistory } from '@ionic/vue-router';
+import { RouteRecordRaw } from 'vue-router';
+import TabsPage from '../views/TabsPage.vue'
 
-const routes = [
+const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'home',
-    component: Home,
-    children: [
-      {
-        path: '/',
-        name: 'setups',
-        component: SetupView
-      },
-      {
-        path: '/new-setup',
-        component: NewSetup,
-        children: [
-          {
-            path: '',
-            component: SetupDescription
-          }
-        ]
-      },
-      {
-        path: '/favorites',
-        name: 'favorites',
-        component: Favorites
-      },
-      {
-        path: '/my-setups',
-        name: 'my-setups',
-        component: MySetups
-      },
-      {
-        path: '/update-setup',
-        name: 'update-setup',
-        component: EditSetup
-      },
-    ]
+    redirect: '/tabs/tab1'
   },
   {
-    path: '/login',
-    name: 'login-view',
-    component: LoginView,
+    path: '/tabs/',
+    component: TabsPage,
     children: [
       {
         path: '',
-        name: 'login',
-        component: Login
+        redirect: '/tabs/tab1'
       },
       {
-        path: '/register',
-        name: 'register',
-        component: Register
+        path: 'tab1',
+        component: () => import('@/views/Tab1Page.vue')
       },
-    ]
-  },
-  {
-    path: '/profile',
-    name: 'profile-view',
-    component: ProfileView,
-    children: [
       {
-        path: '',
-        name: 'profile',
-        component: Profile
+        path: 'tab2',
+        component: () => import('@/views/Tab2Page.vue')
       },
+      {
+        path: 'tab3',
+        component: () => import('@/views/Tab3Page.vue')
+      }
     ]
-  },
-  { 
-    path: '/:pathMatch(.*)*', 
-    name: 'NotFound', 
-    component: NotFound 
-  },
+  }
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(process.env.BASE_URL),
-  routes,
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes
 })
 
 export default router

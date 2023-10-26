@@ -1,13 +1,9 @@
 <template>
-  <router-view />
+  <ion-app>
+    <ion-router-outlet />
+  </ion-app>
 </template>
 
-<script lang="ts" setup>
-  //
+<script setup lang="ts">
+import { IonApp, IonRouterOutlet } from '@ionic/vue';
 </script>
-
-<style lang="css">
-* {
-  font-family: 'Poppins', sans-serif;
-}
-</style>

@@ -1,0 +1,7 @@
+{
+  "name": "pctup2.0",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
